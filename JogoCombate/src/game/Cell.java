@@ -4,7 +4,7 @@ public class Cell {
     private Piece pieceOn;
     private boolean isObstacle;
 
-    public Cell ( boolean isObstacle) {
+    public Cell ( boolean isObstacle ) {
         this.pieceOn = null;
         this.isObstacle = isObstacle;
     }
@@ -14,7 +14,7 @@ public class Cell {
     }
 
     protected void placePiece (Piece piece) {
-        //TODO: error to catch when there is already a piece occupying the space
+        //TODO: error to catch when there is already a piece occupying t
 
         this.pieceOn = piece;
     }

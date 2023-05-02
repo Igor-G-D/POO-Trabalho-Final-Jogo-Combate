@@ -20,6 +20,36 @@ public class Board {
             }
         }
     }
+    protected void clearBoard() {
+        for(int i = 0 ; i < 5 ; i ++) {
+            for(int j = 0; j < 5 ; j++) {
+                this.cells[i][j].removePiece();
+            }
+        }
+    }
+    protected void placePiece(int x, int y, Piece piece) {
+        //TODO: handle exception thrown by Cell.placePIece() when trying to place in tile that is occupied, or is an obstacle
+        //TODO: at the start of the game when player is placing pieces, the exception for when its placed out of bounds is handled elsewhere
+
+        cells[x][y].placePiece(piece);
+
+    }
+
+    protected void setDebug(boolean debug) {
+        for(int i = 0 ; i < 5 ; i ++) {
+            for(int j = 0; j < 5 ; j++) {
+                Piece piece = this.cells[i][j].getPiece();
+                if(piece != null) {
+                    if(!piece.getPlayerOwned()) {
+                        piece.setVisibility(debug); // setting visibility equal to debug for all non player owned pieces
+                    }
+                }
+                
+            }
+        }
+    }
+
+    
 
 
 }
