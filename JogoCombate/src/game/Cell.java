@@ -1,12 +1,16 @@
 package game;
 
 public class Cell {
+    private int posx;
+    private int posy;
     private Piece pieceOn;
     private boolean isObstacle;
 
-    public Cell ( boolean isObstacle ) {
+    public Cell ( int posx, int posy, boolean isObstacle ) {
         this.pieceOn = null;
         this.isObstacle = isObstacle;
+        this.posx = posx;
+        this.posy = posy;
     }
 
     protected void removePiece() {
@@ -26,6 +30,14 @@ public class Cell {
     protected boolean getIsObstacle() {
         return this.isObstacle;
 
+    }
+
+    protected int getPosx() {
+        return this.posx;
+    }
+
+    protected int getPosy() {
+        return this.posy;
     }
 
 }

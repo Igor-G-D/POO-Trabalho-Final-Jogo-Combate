@@ -9,12 +9,12 @@ public class PieceMarshall extends Piece {
     }
 
     protected int attack(Piece victim) {
-        if (victim.getPieceValue() == 3) {
-            return -1;
-        } else if (victim.getPieceValue() == 10) {
+        if (victim.getPieceValue() < 2) {
+            return 1;
+        } else if (victim.getPieceValue() == 2) {
             return 0;
         } else {
-            return 1;
+            return -1;
         }
     }
 
