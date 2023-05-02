@@ -13,7 +13,7 @@ public class Board {
         for(int i = 0 ; i < 5 ; i ++) {
             for(int j = 0; j < 5 ; j++) {
                 boolean isObstacle = false;
-                if ( j == obstaclePos ) {
+                if ( i == 2 && j == obstaclePos ) {
                     isObstacle = true;
                 }
                 cells [i][j] = new Cell(isObstacle);
@@ -21,5 +21,5 @@ public class Board {
         }
     }
 
-    
+
 }
