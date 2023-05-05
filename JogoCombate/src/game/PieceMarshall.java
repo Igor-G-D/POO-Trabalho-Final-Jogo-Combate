@@ -9,9 +9,9 @@ public class PieceMarshall extends Piece {
     }
 
     public int attack(Piece victim) {
-        if (victim.getPieceValue() < 2) {
+        if (victim.getPieceValue() < 10) {
             return 1;
-        } else if (victim.getPieceValue() == 2) {
+        } else if (victim.getPieceValue() == 10) {
             return 0;
         } else {
             return -1;

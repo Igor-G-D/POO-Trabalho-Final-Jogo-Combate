@@ -8,7 +8,7 @@ import java.lang.Math;
 
 public class Board {
     private Cell cells[][];
-    private RemovedPieces removedPieces;
+    private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
 
     public Board () {
         Random RNG = new Random();
@@ -74,6 +74,10 @@ public class Board {
         if (playerAction && !start.getPiece().getPlayerOwned()) {
             return false; // TODO: turn this into an exception (player can't act on a non player piece)
         }
+        
+        if (start.getPiece() instanceof PieceBomb || start.getPiece() instanceof PieceFlag) {
+            return false; // if its a bomb or flag, it can't move or attack
+        } 
 
         if(destination.getPiece() == null) { // attempting to move
             boolean canMove = start.getPiece().canMoveTo(start.getPosx(), start.getPosy(), destination.getPosx(), destination.getPosy()); // returns if the peice can theoretically move to that space
