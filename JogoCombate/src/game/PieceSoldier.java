@@ -16,7 +16,7 @@ public class PieceSoldier extends Piece{
         }
     }
 
-    protected boolean canMoveTo(int currx, int curry, int x, int y) { //TODO: check if there are any pieces "in the way"
+    protected boolean canMoveTo(int currx, int curry, int x, int y) {
         if ((currx == x && curry != y) || (curry == y && currx != x)) {
             return true;
         } else {
