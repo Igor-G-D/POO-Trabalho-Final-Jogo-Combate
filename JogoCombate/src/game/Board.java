@@ -4,10 +4,11 @@ import java.util.Random;
 
 import java.lang.Math;
 
-import javax.swing.CellEditor;
+//import javax.swing.CellEditor;
 
 public class Board {
     private Cell cells[][];
+    private RemovedPieces removedPieces;
 
     public Board () {
         Random RNG = new Random();
@@ -23,6 +24,8 @@ public class Board {
                 cells [i][j] = new Cell(i,j,isObstacle);
             }
         }
+
+        removedPieces = new RemovedPieces();
     }
 
     protected void clearBoard() {
@@ -112,7 +115,7 @@ public class Board {
 
             movePiece(start, destination); //if the piece can move, and there are no objects in between, the piece is removed from the starting position and placed on the destination
             return true;
-        } else if (isAdjacent(start, destination)) { // if there is a piece in the destination, means it is attacking
+        } else if (isAdjacent(start, destination)) {// add removed piece to the removed pieces class // if there is a piece in the destination, means it is attacking
             if (destination.getPiece().getPlayerOwned() == start.getPiece().getPlayerOwned()) {
                 return false; //TODO: make this into an exception (attacking piece of the same team)
             }
@@ -123,20 +126,28 @@ public class Board {
                 start.getPiece().setVisibility(true);
                 destination.getPiece().setVisibility(true);
                 
+                removedPieces.addPiece(start.getPiece()); // add removed piece to the removed pieces class
                 start.removePiece();
             } else if (result == 0) { // tie. both get removed
                 start.getPiece().setVisibility(true);
                 destination.getPiece().setVisibility(true);
                 
+
+                removedPieces.addPiece(start.getPiece()); // add removed piece to the removed pieces class
                 start.removePiece();
+                removedPieces.addPiece(destination.getPiece()); // add removed piece to the removed pieces class
                 destination.removePiece();
             } else { // only other option is result == 1, means that the attacking piece won
                 start.getPiece().setVisibility(true);
                 destination.getPiece().setVisibility(true);
 
+                removedPieces.addPiece(destination.getPiece()); // add removed piece to the removed pieces class
                 destination.removePiece();
                 movePiece(start, destination);// piece that attacks occupies the space of the piece it won against
             }
+
+            //TODO: Check for game end using the method removedPieces.gameEnd()
+            // the game can only end after an attack is made, moving will not change the state of the game
         }
 
         return false; //if it reaches this condition, means that it is trying to attack a piece that is non adjacent, which is an invalid move
