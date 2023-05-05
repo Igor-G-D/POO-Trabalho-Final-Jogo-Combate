@@ -7,6 +7,7 @@ public class PieceFlag extends Piece {
     }
 
     protected int attack(Piece victim) {
+        //TODO: throw exception (cannot attack)
         return -2; //cannot attack
     }
 
