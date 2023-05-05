@@ -6,6 +6,7 @@ public class PieceBomb extends Piece {
     }
 
     protected int attack(Piece victim) {
+        //TODO: throw exception (cannot attack)
         return -2; //cannot attack
     }
 
