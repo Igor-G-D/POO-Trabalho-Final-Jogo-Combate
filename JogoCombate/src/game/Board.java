@@ -8,7 +8,7 @@ import java.lang.Math;
 
 public class Board {
     private Cell cells[][];
-    private RemovedPieces removedPieces;
+    private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
 
     public Board () {
         Random RNG = new Random();
