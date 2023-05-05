@@ -6,7 +6,7 @@ public class PieceSoldier extends Piece{
         super(playerOwned, 2);
     }
 
-    protected int attack(Piece victim) {
+    public int attack(Piece victim) {
         if (victim.getPieceValue() < 2) {
             return 1;
         } else if (victim.getPieceValue() == 2) {
@@ -16,7 +16,7 @@ public class PieceSoldier extends Piece{
         }
     }
 
-    protected boolean canMoveTo(int currx, int curry, int x, int y) { //TODO: check if there are any pieces "in the way"
+    public boolean canMoveTo(int currx, int curry, int x, int y) { //TODO: check if there are any pieces "in the way"
         if ((currx == x && curry != y) || (curry == y && currx != x)) {
             return true;
         } else {

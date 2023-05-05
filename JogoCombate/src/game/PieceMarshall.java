@@ -8,7 +8,7 @@ public class PieceMarshall extends Piece {
         super(playerOwned, 10);
     }
 
-    protected int attack(Piece victim) {
+    public int attack(Piece victim) {
         if (victim.getPieceValue() < 2) {
             return 1;
         } else if (victim.getPieceValue() == 2) {
@@ -18,7 +18,7 @@ public class PieceMarshall extends Piece {
         }
     }
 
-    protected boolean canMoveTo(int currx, int curry, int x, int y) {
+    public boolean canMoveTo(int currx, int curry, int x, int y) {
         if(Math.abs(currx - x) == 1 && curry == y) {// moving forward or back 1 position
             return true;
         } else if (currx == x && Math.abs(curry - y) == 1) {

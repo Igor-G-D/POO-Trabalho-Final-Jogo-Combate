@@ -12,22 +12,22 @@ public abstract class Piece {
         this.value = value;
     }
 
-    protected abstract int attack( Piece victim ); // -1 if the agressor dies, 0 if both dies, 1 if victim dies
-    protected abstract boolean canMoveTo(int currx, int curry, int x, int y); // returns if the piece can move to that position TODO: throws exception for when the move is invalid for the piece
+    public abstract int attack( Piece victim ); // -1 if the agressor dies, 0 if both dies, 1 if victim dies
+    public abstract boolean canMoveTo(int currx, int curry, int x, int y); // returns if the piece can move to that position TODO: throws exception for when the move is invalid for the piece
 
-    protected int getPieceValue() {
+    public int getPieceValue() {
         return this.value;
     }
 
-    protected void setVisibility(boolean visibility) {
+    public void setVisibility(boolean visibility) {
         this.isVisible = visibility;
     }
 
-    protected boolean getPlayerOwned () {
+    public boolean getPlayerOwned () {
         return this.playerOwned;
     }
 
-    protected boolean getIsVisible () {
+    public boolean getIsVisible () {
         return this.isVisible;
     }
 

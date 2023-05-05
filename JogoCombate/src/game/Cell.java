@@ -13,30 +13,30 @@ public class Cell {
         this.posy = posy;
     }
 
-    protected void removePiece() {
+    public void removePiece() {
         this.pieceOn = null;
     }
 
-    protected void placePiece (Piece piece) {
+    public void placePiece (Piece piece) {
         //TODO: error to catch when there is already a piece occupying t
 
         this.pieceOn = piece;
     }
 
-    protected Piece getPiece () {
+    public Piece getPiece () {
         return this.pieceOn;
     } 
 
-    protected boolean getIsObstacle() {
+    public boolean getIsObstacle() {
         return this.isObstacle;
 
     }
 
-    protected int getPosx() {
+    public int getPosx() {
         return this.posx;
     }
 
-    protected int getPosy() {
+    public int getPosy() {
         return this.posy;
     }
 
