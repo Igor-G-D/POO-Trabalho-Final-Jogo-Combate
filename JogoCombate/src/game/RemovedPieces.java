@@ -5,8 +5,8 @@ public class RemovedPieces {
     private PlayerPieceSet playerPieces;
 
     RemovedPieces() {
-        enemyPieces = new PlayerPieceSet(false, true);
-        playerPieces = new PlayerPieceSet(true, true);
+        enemyPieces = new PlayerPieceSet(false, false);
+        playerPieces = new PlayerPieceSet(true, false);
     }
 
     public void addPiece(Piece piece) {
@@ -52,6 +52,16 @@ public class RemovedPieces {
         } else {
             return 0; // game isn't over
         }
+    }
+
+    public PlayerPieceSet getPiecesSet(boolean playerOwned) {
+        
+        if(playerOwned) {
+            return playerPieces;
+        } else {
+            return enemyPieces;
+        }
+
     }
 
     private boolean checkMovablePieces(PlayerPieceSet pieces) { // true if there are movable pieces, false if not

@@ -9,7 +9,7 @@ import java.lang.Math;
 public class Board {
     private Cell cells[][];
     private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
-
+    
     public Board () {
         Random RNG = new Random();
         int obstaclePos = RNG.nextInt(5); // random number between 0 and 4 (inclusive)
@@ -26,11 +26,13 @@ public class Board {
         }
 
         removedPieces = new RemovedPieces();
+
     }
 
-    public void clearBoard() {
+    public void clearBoard() { 
         for(int i = 0 ; i < 5 ; i ++) {
             for(int j = 0; j < 5 ; j++) {
+                removedPieces.addPiece(this.cells[i][j].getPiece());
                 this.cells[i][j].removePiece();
             }
         }
@@ -155,6 +157,39 @@ public class Board {
         }
 
         return false; //if it reaches this condition, means that it is trying to attack a piece that is non adjacent, which is an invalid move
+    }
+
+    private void randomizePositions (PlayerPieceSet pieces, int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
+
+        Random RNG = new Random();
+        
+        while (pieces.getFlag() != null) {
+
+            int flagPosx = posx + RNG.nextInt(2); //choose which row to place the flag 
+            int flagPosy = RNG.nextInt(5); // choose which column to place in the flag
+
+            if(flagPosx != 4 || flagPosx != 0) { // if not on the very back row of each side
+                if (isAdjacent(cells[flagPosx][flagPosy], findObstacle())) {
+                    cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag()); // removes flag from removedPieces and sets it on the board
+                }
+            } else {
+                cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
+            }
+        }
+
+        // TODO: randomize bombs and the rest of the pieces
+
+
+
+    }
+
+    private Cell findObstacle() {
+        for(int i=0;i<5;i++) {
+            if(cells[2][i].getIsObstacle()) {
+                return cells[2][i];
+            }
+        }
+        return null;
     }
 
     private void movePiece(Cell start, Cell destination) {
