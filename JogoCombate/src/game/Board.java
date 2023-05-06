@@ -41,20 +41,20 @@ public class Board {
             }
         }
     }
-    public void playerPlacePieceStart(int x, int y, Piece piece) { //this will be always used by the player
+    public boolean playerPlacePieceStart(int x, int y, Piece piece) { //always used by the player, returns false if it couldn't place, true if it was placed
         //TODO: handle exception thrown by Cell.placePIece() when trying to place in tile that is occupied, or is an obstacle
 
         if(!validPositionToPlace(x, y, true)) {
-            //TODO: throw exception for invalid position
+            return false;
         }
 
         Piece current = null;
 
         if(piece instanceof PieceSpy) {
-            current = removedPieces.getPiecesSet(true).removeSpy();
+            current = removedPieces.getPiecesSet(true).removeSpy(); // will be null if the piece was already placed
         }
         if(piece instanceof PieceSoldier) {
-            current = removedPieces.getPiecesSet(true).removeSoldier();
+            current = removedPieces.getPiecesSet(true).removeSoldier(); // will be null if all soldier pieces were already placed
         }
         if(piece instanceof PieceCorporal) {
             current = removedPieces.getPiecesSet(true).removeCorporal();
@@ -69,9 +69,11 @@ public class Board {
             current = removedPieces.getPiecesSet(true).removeFlag();
         }
         if(current == null) {
-            //TODO: if current == null, throw exception for when it tries to place a piece that was already placed
+            return false;
         }
+
         cells[x][y].placePiece(current); 
+        return true;
 
     }
 
