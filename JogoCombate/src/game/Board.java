@@ -201,14 +201,14 @@ public class Board {
     }
 
     public void setStartRandom() {
-        randomizePositions(0, true); //randomize player pieces;
-        randomizePositions(4, false); //randomize enemy positions
+        randomizePositions(4, true); //randomize player pieces;
+        randomizePositions(0, false); //randomize enemy positions
 
         //TODO: exceptionn for when the board isn't empty
     }
 
     public void setStartPlayerChoice() {
-        randomizePositions(4, false); //randomize enemy positions
+        randomizePositions(0, false); //randomize enemy positions
 
         //TODO: allow player to choose the position for their own pieces;
     }
