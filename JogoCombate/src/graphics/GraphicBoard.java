@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 public class GraphicBoard extends JFrame {
     private Board bd = new Board();
-    private Button btn[][];
+    private Button btn[][] = new Button[5][5];
 
     public void showWindow() {
 
