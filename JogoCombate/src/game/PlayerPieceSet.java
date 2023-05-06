@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 public class PlayerPieceSet {
     private Piece spy, soldier[], corporal[], marshall, bomb[], flag;
     private boolean playerOwned;
@@ -173,4 +175,82 @@ public class PlayerPieceSet {
         }
     }
 
+    public ArrayList<Piece> returnPiecesLeft(boolean remove) { // returns an ArrayList with all the pieces that are stored
+        ArrayList<Piece> returnArray = new ArrayList<Piece>();
+        
+        if(remove) {
+            Piece current;
+    
+            current = this.removeSpy();
+            if (current != null) {
+                returnArray.add(current);
+            }
+            
+            for(int i=0;i<3;i++) {
+                current = this.removeSoldier();
+                if(current != null) {
+                    returnArray.add(current);
+                }
+            }
+    
+            for(int i=0;i<2;i++) {
+                current = this.removeCorporal();
+                if(current != null) {
+                    returnArray.add(current);
+                }
+            }
+    
+    
+            current = this.removeMarshall();
+            if(current != null) {
+                returnArray.add(current);
+            }
+    
+            for(int i=0;i<2;i++) {
+                current = this.removeBomb();
+                if(current != null) {
+                    returnArray.add(bomb[i]);
+                }
+            }
+    
+            current = this.removeFlag();
+            if(current != null) {
+                returnArray.add(current);
+            }
+    
+            return returnArray;
+        } else {
+            if(spy != null) {
+                returnArray.add(spy);
+            }
+            
+            for(int i=0;i<3;i++) {
+                if(soldier[i] != null) {
+                    returnArray.add(soldier[i]);
+                }
+            }
+    
+            for(int i=0;i<2;i++) {
+                if(corporal[i] != null) {
+                    returnArray.add(corporal[i]);
+                }
+            }
+    
+            if(marshall != null) {
+                returnArray.add(marshall);
+            }
+    
+            for(int i=0;i<2;i++) {
+                if(bomb[i] != null) {
+                    returnArray.add(bomb[i]);
+                }
+            }
+    
+            if(flag != null) {
+                returnArray.add(flag);
+            }
+    
+            return returnArray;
+        }
+    }
 }
