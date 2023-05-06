@@ -1,7 +1,6 @@
 package graphics;
 
 import java.awt.Color;
-import java.awt.Image;
 
 import javax.swing.JButton;
 
@@ -10,23 +9,22 @@ import game.*;
 public class Button {
     private JButton btn;
     private Cell associatedCell;
-    private Image iconImage;
 
     public Button(Cell cell) {
-        this.btn = new JButton();
-        this.associatedCell = cell;
-        if( this.associatedCell.getIsObstacle() ) {
+        btn = new JButton();
+        associatedCell = cell;
+        if( associatedCell.getIsObstacle() ) {
             btn.setText("X");
         }
-        this.btn.setBackground(Color.LIGHT_GRAY);
+        btn.setBackground(Color.LIGHT_GRAY);
     }
 
     public JButton getButton() {
-        return this.btn;
+        return btn;
     }
 
     public Cell getAssociatedCell() {
-        return this.associatedCell;
+        return associatedCell;
     }
 
     public void setIconImagem() {
