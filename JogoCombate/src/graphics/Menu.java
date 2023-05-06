@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 public class Menu extends JFrame {
 
     public void showMenu() {
+
         setTitle("Combate");        
         setSize(400, 600);
         setLocationRelativeTo(null);
@@ -23,10 +26,11 @@ public class Menu extends JFrame {
 
         GridBagConstraints c = new GridBagConstraints();
 
+
         JPanel ptop = new JPanel(new GridBagLayout());
         ptop.setVisible(true);
-        JLabel lblTitle = new JLabel("Bem Vindo ao Combate");
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        JLabel lblTitle = new JLabel("Bem Vindo ao Combate!");
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 30));
         ptop.add(lblTitle);
         ptop.setBorder(BorderFactory.createEmptyBorder(80, 10, 0, 10));
 
@@ -42,6 +46,16 @@ public class Menu extends JFrame {
         JPanel pleft = new JPanel(new GridLayout());
         pleft.setVisible(true);
         JButton btnRandom = new JButton("Posição Aleatória");
+        // ON CLICK ACTION
+        btnRandom.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: implement to call random positioning
+                dispose();
+            }
+        });
+
         pleft.add(btnRandom);
         pleft.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
 
@@ -52,10 +66,21 @@ public class Menu extends JFrame {
         c.gridy = 1;
         c.gridwidth = 1;
         add(pleft, c);
-    
+
+
         JPanel pright = new JPanel(new GridLayout());
         pright.setVisible(true);
         JButton btnSort = new JButton("Definir Posições");
+        // ON CLICK ACTION
+        btnSort.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: implement to open a window for manual piece insertion
+                dispose();
+            }
+        });
+
         pright.add(btnSort);
         pright.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
 
