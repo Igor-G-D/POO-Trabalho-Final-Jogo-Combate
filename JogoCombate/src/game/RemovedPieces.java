@@ -41,6 +41,14 @@ public class RemovedPieces {
         }
     }
 
+    public boolean validGameStart () { // returns false if there are still pieces left to place, true if all pieces are on the board and it can start
+        if(enemyPieces.returnPiecesLeft(false).size() == 0 && playerPieces.returnPiecesLeft(false).size() == 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public int gameEnd() { // -1 = enemy win, 0 = continue game, 1 = player win, 2 = tie (no pieces that can move are left)
         //TODO: add exception for when both enemy and player has their flags captured (invalid state)
         if(playerPieces.getFlag() != null) { // if the player's flag was removed

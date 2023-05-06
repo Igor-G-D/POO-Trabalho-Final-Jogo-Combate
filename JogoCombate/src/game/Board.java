@@ -2,6 +2,10 @@ package game;
 
 import java.util.Random;
 
+import java.util.ArrayList;
+
+import java.util.Collections;
+
 import java.lang.Math;
 
 //import javax.swing.CellEditor;
@@ -37,11 +41,39 @@ public class Board {
             }
         }
     }
-    public void placePiece(int x, int y, Piece piece) {
+    public boolean playerPlacePieceStart(int x, int y, Piece piece) { //always used by the player, returns false if it couldn't place, true if it was placed
         //TODO: handle exception thrown by Cell.placePIece() when trying to place in tile that is occupied, or is an obstacle
-        //TODO: at the start of the game when player is placing pieces, the exception for when its placed out of bounds is handled elsewhere
 
-        cells[x][y].placePiece(piece);
+        if(!validPositionToPlace(x, y, true)) {
+            return false;
+        }
+
+        Piece current = null;
+
+        if(piece instanceof PieceSpy) {
+            current = removedPieces.getPiecesSet(true).removeSpy(); // will be null if the piece was already placed
+        }
+        if(piece instanceof PieceSoldier) {
+            current = removedPieces.getPiecesSet(true).removeSoldier(); // will be null if all soldier pieces were already placed
+        }
+        if(piece instanceof PieceCorporal) {
+            current = removedPieces.getPiecesSet(true).removeCorporal();
+        }
+        if(piece instanceof PieceMarshall) {
+            current = removedPieces.getPiecesSet(true).removeMarshall();
+        }
+        if(piece instanceof PieceBomb) {
+            current = removedPieces.getPiecesSet(true).removeBomb();
+        }
+        if(piece instanceof PieceFlag) {
+            current = removedPieces.getPiecesSet(true).removeFlag();
+        }
+        if(current == null) {
+            return false;
+        }
+
+        cells[x][y].placePiece(current); 
+        return true;
 
     }
 
@@ -159,11 +191,24 @@ public class Board {
         return false; //if it reaches this condition, means that it is trying to attack a piece that is non adjacent, which is an invalid move
     }
 
-    private void randomizePositions (PlayerPieceSet pieces, int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
+    public void setStartRandom() {
+        randomizePositions(0, true); //randomize player pieces;
+        randomizePositions(4, false); //randomize enemy positions
+
+        //TODO: exceptionn for when the board isn't empty
+    }
+
+    public void setStartPlayerChoice() {
+        randomizePositions(4, false); //randomize enemy positions
+
+        //TODO: allow player to choose the position for their own pieces;
+    }
+
+    private void randomizePositions (int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
 
         Random RNG = new Random();
         
-        while (pieces.getFlag() != null) {
+        while (removedPieces.getPiecesSet(playerPieces).getFlag() != null) {
 
             int flagPosx = posx + RNG.nextInt(2); //choose which row to place the flag 
             int flagPosy = RNG.nextInt(5); // choose which column to place in the flag
@@ -171,16 +216,54 @@ public class Board {
             if(flagPosx != 4 || flagPosx != 0) { // if not on the very back row of each side
                 if (isAdjacent(cells[flagPosx][flagPosy], findObstacle())) {
                     cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag()); // removes flag from removedPieces and sets it on the board
+                    if(flagPosy == 0 || flagPosy == 4) { //means that the flag is against one of the sides
+                        int bombPosy1 = (flagPosy == 0) ?  flagPosy+1 : flagPosy-1; // if flagpos == 0, bombpos = 1, else, bombpos = 3
+                        cells[flagPosx][bombPosy1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                        cells[flagPosx-1][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                    } else {
+                        cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
+                        cells[flagPosx][flagPosy+1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb()); // place bombs around the sides of the flag
+                        cells[flagPosx][flagPosy-1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                    }
+                } else {
+                    continue; //skips current loop
                 }
             } else {
-                cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
+                if(flagPosy == 0 || flagPosy == 4) { //means that the flag is against one of the sides
+                    int bombPosy1 = (flagPosy == 0) ?  flagPosy+1 : flagPosy-1; // if flagpos == 0, bombpos = 1, else, bombpos = 3
+                    cells[flagPosx][bombPosy1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                    cells[flagPosx+1][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                } else {
+                    cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
+                    cells[flagPosx+1][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb()); // always place a bomb at the front of the flag
+
+                    int randomPos = RNG.nextInt(2);
+
+                    if (randomPos == 0) {
+                        cells[flagPosx][flagPosy-1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                    } else {
+                        cells[flagPosx][flagPosy+1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb()); // place bombs around one of the sides of the flag
+
+                    }
+                }
             }
+
+            // now the flag and the bombs are in position, needs to iterate through the rest of the board;
+
+            ArrayList<Piece> piecesLeft = removedPieces.getPiecesSet(playerPieces).returnPiecesLeft(true);
+            Collections.shuffle(piecesLeft, RNG); //shuffles the pieces that are to be put on the board
+
+            for(int i = posx ; i < posx+2 ; i++) {
+                for(int j = 0 ; j < 5 ; j++) {
+                    if(cells[i][j].getPiece() == null) {
+                        cells[i][j].placePiece(piecesLeft.get(0));
+                        piecesLeft.remove(0);
+                    }
+                }
+            }
+
+            //TODO: throw exception when piecesLeft isn't empty after the last for
         }
-
-        // TODO: randomize bombs and the rest of the pieces
-
-
-
     }
 
     private Cell findObstacle() {
@@ -199,6 +282,14 @@ public class Board {
 
     private boolean isAdjacent(Cell start, Cell destination) {
         if(Math.abs(start.getPosx() - destination.getPosx()) + Math.abs(start.getPosy() - destination.getPosy()) == 1) { // if adjacent, |x(start) - x(dest)| + |y(start) - y(dest)| since one must be 1, and the other 0
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean validPositionToPlace(int x, int y, boolean playerSide) {
+        if(cells[x][y].getPiece() == null && !cells[x][y].getIsObstacle() && (x == 0 || x == 1)) {
             return true;
         } else {
             return false;
