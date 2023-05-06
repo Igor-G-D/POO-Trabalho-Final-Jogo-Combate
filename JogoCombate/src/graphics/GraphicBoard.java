@@ -2,36 +2,20 @@ package graphics;
 
 import game.*;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 public class GraphicBoard extends JFrame {
-    public int obst;
-    public Board bd = new Board();
-    public Cell obstCell;
+    private Board bd = new Board();
+    private Button btn[][];
 
     public void showWindow() {
-
-
-        for( int i = 0 ; i<5 ; i++ )
-            for( int j = 0 ; j<5 ; j++ ) {
-                obstCell = bd.getCell(j, i);
-                if(obstCell.getIsObstacle())
-                    obst = (5*i) + j;
-            }
 
         setTitle("Teste");
         setSize(400, 600);
@@ -65,19 +49,12 @@ public class GraphicBoard extends JFrame {
         // BUTTONS` GRID CONFIGURATION
         JPanel pMid = new JPanel(new GridLayout(5, 5));
         pMid.setVisible(true);
-
-        /**/ for( int i = 0 ; i<25 ; i++ ) {
-            JButton btn = new JButton();
-            btn.setText(String.valueOf(i));
-            btn.setPreferredSize(new Dimension(1, 1));
-            if(i == obst) {
-                btn.setForeground(Color.BLACK);
-                btn.setText("X");
-            } else {
-                btn.setForeground(Color.LIGHT_GRAY);
+/**/
+        for( int i = 0 ; i<5 ; i++ ) {
+            for( int j = 0 ; j<5 ; j++ ) {
+                btn[i][j] = new Button(bd.getCell(i, j));
+                pMid.add(btn[i][j].getButton());
             }
-            btn.setBackground(Color.LIGHT_GRAY);
-            pMid.add(btn);
         }
 /* 
         JButton btn1 = new JButton("1");
