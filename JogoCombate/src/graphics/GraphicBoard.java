@@ -16,9 +16,12 @@ public class GraphicBoard extends JFrame {
     private Button btn[][] = new Button[5][5];
 
     //TODO: insert pieces from both player and enemy on the grid
-    
-    public void showWindow() {
 
+    public Board getBoard() {
+        return bd;
+    }
+
+    public void showWindow() {
         //bd.setStartPlayerChoice();
 
         setTitle("Teste");

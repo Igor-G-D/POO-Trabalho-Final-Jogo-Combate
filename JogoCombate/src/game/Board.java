@@ -13,9 +13,10 @@ import java.lang.Math;
 public class Board {
     private Cell cells[][] = new Cell[5][5];
     private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
-    
+    private Random RNG;
+
     public Board () {
-        Random RNG = new Random();
+        this.RNG = new Random(System.currentTimeMillis());
         int obstaclePos = RNG.nextInt(5); // random number between 0 and 4 (inclusive)
         // i = rows, j = columns
         // the only non player owned row is row 2, so the obstacle must be in that row
@@ -201,34 +202,35 @@ public class Board {
     }
 
     public void setStartRandom() {
-        randomizePositions(4, true); //randomize player pieces;
+        randomizePositions(3, true); //randomize player pieces;
         randomizePositions(0, false); //randomize enemy positions
 
         //TODO: exceptionn for when the board isn't empty
     }
 
     public void setStartPlayerChoice() {
-        randomizePositions(0, false); //randomize enemy positions
+        randomizePositions(3, false); //randomize enemy positions
 
         //TODO: allow player to choose the position for their own pieces;
     }
 
     private void randomizePositions (int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
-
-        Random RNG = new Random();
         
         while (removedPieces.getPiecesSet(playerPieces).getFlag() != null) {
 
-            int flagPosx = posx + RNG.nextInt(2); //choose which row to place the flag 
+            int randomx = RNG.nextInt(2); //choose which row to place the flag
+            int flagPosx = posx + randomx; 
             int flagPosy = RNG.nextInt(5); // choose which column to place in the flag
 
-            if(flagPosx != 4 || flagPosx != 0) { // if not on the very back row of each side
+            if(flagPosx == 3 || flagPosx == 1) { // if not on the very back row of each side
                 if (isAdjacent(cells[flagPosx][flagPosy], findObstacle())) {
                     cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag()); // removes flag from removedPieces and sets it on the board
                     if(flagPosy == 0 || flagPosy == 4) { //means that the flag is against one of the sides
-                        int bombPosy1 = (flagPosy == 0) ?  flagPosy+1 : flagPosy-1; // if flagpos == 0, bombpos = 1, else, bombpos = 3
-                        cells[flagPosx][bombPosy1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
-                        cells[flagPosx-1][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                        int bombPosy = (flagPosy == 0) ?  flagPosy+1 : flagPosy-1; // if flagposy == 0, bombposy = 1, else, bombposy = 3
+                        int bombPosx = (flagPosx == 0) ?  flagPosx+1 : flagPosx-1; // if flagposx == 0, bombposx = 1, else, bombposx = 3
+
+                        cells[flagPosx][bombPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                        cells[bombPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
                     } else {
                         cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
                         cells[flagPosx][flagPosy+1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb()); // place bombs around the sides of the flag
@@ -239,12 +241,15 @@ public class Board {
                 }
             } else {
                 if(flagPosy == 0 || flagPosy == 4) { //means that the flag is against one of the sides
-                    int bombPosy1 = (flagPosy == 0) ?  flagPosy+1 : flagPosy-1; // if flagpos == 0, bombpos = 1, else, bombpos = 3
-                    cells[flagPosx][bombPosy1].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
-                    cells[flagPosx+1][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
-                } else {
+                    int bombPosy = (flagPosy == 0) ?  flagPosy+1 : flagPosy-1; // if flagposy == 0, bombposy = 1, else, bombposy = 3
+                    int bombPosx = (flagPosy == 0) ?  flagPosx+1 : flagPosx-1; // if flagposx == 0, bombposx = 1, else, bombposx = 3
                     cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
-                    cells[flagPosx+1][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb()); // always place a bomb at the front of the flag
+                    cells[flagPosx][bombPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                    cells[bombPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb());
+                } else {
+                    int bombPosx = (flagPosx == 0) ?  flagPosx+1 : flagPosx-1; // if flagposx == 0, bombposx = 1, else, bombposx = 3
+                    cells[flagPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeFlag());
+                    cells[bombPosx][flagPosy].placePiece(removedPieces.getPiecesSet(playerPieces).removeBomb()); // always place a bomb at the front of the flag
 
                     int randomPos = RNG.nextInt(2);
 
@@ -259,17 +264,17 @@ public class Board {
 
             // now the flag and the bombs are in position, needs to iterate through the rest of the board;
 
-            ArrayList<Piece> piecesLeft = removedPieces.getPiecesSet(playerPieces).returnPiecesLeft(true);
-            Collections.shuffle(piecesLeft, RNG); //shuffles the pieces that are to be put on the board
+            // ArrayList<Piece> piecesLeft = removedPieces.getPiecesSet(playerPieces).returnPiecesLeft(true);
+            // Collections.shuffle(piecesLeft, RNG); //shuffles the pieces that are to be put on the board
 
-            for(int i = posx ; i < posx+2 ; i++) {
-                for(int j = 0 ; j < 5 ; j++) {
-                    if(cells[i][j].getPiece() == null) {
-                        cells[i][j].placePiece(piecesLeft.get(0));
-                        piecesLeft.remove(0);
-                    }
-                }
-            }
+            // for(int i = posx ; i < posx+2 ; i++) {
+            //     for(int j = 0 ; j < 5 ; j++) {
+            //         if(cells[i][j].getPiece() == null) {
+            //             cells[i][j].placePiece(piecesLeft.get(0));
+            //             piecesLeft.remove(0);
+            //         }
+            //     }
+            // }
 
             //TODO: throw exception when piecesLeft isn't empty after the last for
         }

@@ -114,7 +114,7 @@ public class PlayerPieceSet {
     public Piece removeFlag() {
         if(flag != null) {
             Piece temp = flag;
-            spy = null;
+            flag = null;
             return temp;
         } else {
             return flag;

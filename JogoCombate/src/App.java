@@ -5,7 +5,8 @@ public class App {
     public static void main(String[] args) throws Exception {
         GraphicBoard gb = new GraphicBoard();
 
-        gb.showWindow();
+        gb.getBoard().setStartRandom();
 
+        gb.showWindow();
     }
 }
