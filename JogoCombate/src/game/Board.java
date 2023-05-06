@@ -11,7 +11,7 @@ import java.lang.Math;
 //import javax.swing.CellEditor;
 
 public class Board {
-    private Cell cells[][];
+    private Cell cells[][] = new Cell[5][5];
     private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
     
     public Board () {

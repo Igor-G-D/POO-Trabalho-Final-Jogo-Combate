@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 
 public class PlayerPieceSet {
-    private Piece spy, soldier[], corporal[], marshall, bomb[], flag;
+    private Piece spy, soldier[] = new Piece[3], corporal[] = new Piece[2], marshall, bomb[] = new Piece[2], flag;
     private boolean playerOwned;
 
     PlayerPieceSet(boolean playerOwned, boolean empty) {
