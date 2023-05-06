@@ -16,6 +16,20 @@ public class Button {
         if( associatedCell.getIsObstacle() ) {
             btn.setText("X");
         }
+        if( associatedCell.getPiece() instanceof PieceBomb ) {
+            btn.setText("0");
+        } else if (associatedCell.getPiece() instanceof PieceFlag) {
+            btn.setText("F");
+        } else if (associatedCell.getPiece() instanceof PieceMarshall) {
+            btn.setText("10");
+        } else if (associatedCell.getPiece() instanceof PieceSoldier) {
+            btn.setText("2");
+        } else if (associatedCell.getPiece() instanceof PieceSpy) {
+            btn.setText("1");
+        } else if (associatedCell.getPiece() instanceof PieceCorporal) {
+            btn.setText("3");
+        }
+    
         btn.setBackground(Color.LIGHT_GRAY);
     }
 
