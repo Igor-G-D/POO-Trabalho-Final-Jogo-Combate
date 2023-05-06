@@ -1,13 +1,11 @@
 import game.*;
+import graphics.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Board test = new Board();
+        GraphicBoard gb = new GraphicBoard();
 
-        Cell testCell = test.getCell(0,0);
-
-        int test1 = testCell.getPosx();
-        int test2 = testCell.getPosy();
+        gb.showWindow();
 
     }
 }
