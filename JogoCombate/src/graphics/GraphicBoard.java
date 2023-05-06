@@ -29,6 +29,7 @@ public class GraphicBoard extends JFrame {
 
         //bd.setStartPlayerChoice(); <-- waiting for implementation
 
+        /*aa */
         setTitle("Teste");
         setSize(400, 600);
         setLocationRelativeTo(null);
