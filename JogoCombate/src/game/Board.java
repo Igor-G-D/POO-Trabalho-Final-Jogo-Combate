@@ -41,11 +41,37 @@ public class Board {
             }
         }
     }
-    public void placePiece(int x, int y, Piece piece) {
+    public void playerPlacePieceStart(int x, int y, Piece piece) { //this will be always used by the player
         //TODO: handle exception thrown by Cell.placePIece() when trying to place in tile that is occupied, or is an obstacle
-        //TODO: at the start of the game when player is placing pieces, the exception for when its placed out of bounds is handled elsewhere
 
-        cells[x][y].placePiece(piece);
+        if(!validPositionToPlace(x, y, true)) {
+            //TODO: throw exception for invalid position
+        }
+
+        Piece current = null;
+
+        if(piece instanceof PieceSpy) {
+            current = removedPieces.getPiecesSet(true).removeSpy();
+        }
+        if(piece instanceof PieceSoldier) {
+            current = removedPieces.getPiecesSet(true).removeSoldier();
+        }
+        if(piece instanceof PieceCorporal) {
+            current = removedPieces.getPiecesSet(true).removeCorporal();
+        }
+        if(piece instanceof PieceMarshall) {
+            current = removedPieces.getPiecesSet(true).removeMarshall();
+        }
+        if(piece instanceof PieceBomb) {
+            current = removedPieces.getPiecesSet(true).removeBomb();
+        }
+        if(piece instanceof PieceFlag) {
+            current = removedPieces.getPiecesSet(true).removeFlag();
+        }
+        if(current == null) {
+            //TODO: if current == null, throw exception for when it tries to place a piece that was already placed
+        }
+        cells[x][y].placePiece(current); 
 
     }
 
@@ -163,6 +189,19 @@ public class Board {
         return false; //if it reaches this condition, means that it is trying to attack a piece that is non adjacent, which is an invalid move
     }
 
+    public void setStartRandom() {
+        randomizePositions(0, true); //randomize player pieces;
+        randomizePositions(4, false); //randomize enemy positions
+
+        //TODO: exceptionn for when the board isn't empty
+    }
+
+    public void setStartPlayerChoice() {
+        randomizePositions(4, false); //randomize enemy positions
+
+        //TODO: allow player to choose the position for their own pieces;
+    }
+
     private void randomizePositions (int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
 
         Random RNG = new Random();
@@ -241,6 +280,14 @@ public class Board {
 
     private boolean isAdjacent(Cell start, Cell destination) {
         if(Math.abs(start.getPosx() - destination.getPosx()) + Math.abs(start.getPosy() - destination.getPosy()) == 1) { // if adjacent, |x(start) - x(dest)| + |y(start) - y(dest)| since one must be 1, and the other 0
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean validPositionToPlace(int x, int y, boolean playerSide) {
+        if(cells[x][y].getPiece() == null && !cells[x][y].getIsObstacle() && (x == 0 || x == 1)) {
             return true;
         } else {
             return false;
