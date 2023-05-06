@@ -77,6 +77,15 @@ public class Board {
 
     }
 
+    public boolean playerRemovePieceStart(int x, int y) { // can only be used during the start of the game when the player is setting up their pieces. returns true if the piece was removed, false otherwise
+        if (cells[x][y].getPiece() != null) {
+            removedPieces.addPiece(cells[x][y].getPiece());
+            cells[x][y].removePiece();
+            return true;
+        }
+        return false;
+    }
+
     public void setDebug(boolean debug) {
         for(int i = 0 ; i < 5 ; i ++) {
             for(int j = 0; j < 5 ; j++) {
