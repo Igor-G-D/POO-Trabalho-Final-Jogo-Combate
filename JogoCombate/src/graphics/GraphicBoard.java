@@ -139,7 +139,6 @@ public class GraphicBoard extends JFrame {
                 
                 if(previousButton == null) { // nothing was pressed before, or a piece without a piece was chosen, or a enemy piece was chosen
                     setPreviousButton(button);
-                    return;
                 } else if(previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
                     if(button.getAssociatedCell().getPiece() == null) {
                         bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
@@ -147,9 +146,15 @@ public class GraphicBoard extends JFrame {
                         updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
 
                         setPreviousButton(null);
+                    } else if (!button.getAssociatedCell().getPiece().getPlayerOwned()){
+                        bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
+                        updateCell(previousButton.getAssociatedCell().getPosx(), previousButton.getAssociatedCell().getPosy());
+                        updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
+                        
+                        setPreviousButton(null);
                     }
                 } else if(!previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
-                    setPreviousButton(null);
+                    setPreviousButton(button);
                 }
 
             }
