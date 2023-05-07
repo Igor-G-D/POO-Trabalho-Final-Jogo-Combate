@@ -4,9 +4,9 @@ public class RemovedPieces {
     private PlayerPieceSet enemyPieces;
     private PlayerPieceSet playerPieces;
 
-    RemovedPieces() {
-        enemyPieces = new PlayerPieceSet(false, false);
-        playerPieces = new PlayerPieceSet(true, false);
+    RemovedPieces(boolean empty) {
+        enemyPieces = new PlayerPieceSet(false, empty);
+        playerPieces = new PlayerPieceSet(true, empty);
     }
 
     public void addPiece(Piece piece) {
