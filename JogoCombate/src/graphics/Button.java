@@ -24,11 +24,13 @@ public class Button {
         //btn.setBackground(Color.LIGHT_GRAY);
 
     public void upgradeImage(){
-        if(associatedCell.getPiece() == null && !associatedCell.getIsObstacle()) {
-            btn.setIcon(null);
+        if (associatedCell.getIsObstacle()) {
             return;
         }
-        if(associatedCell.getPiece().getPlayerOwned() == true){
+
+        if(associatedCell.getPiece() == null) {
+            btn.setIcon(null);
+        } else if(associatedCell.getPiece().getPlayerOwned() == true){
             if(associatedCell.getPiece() instanceof PieceBomb) {
                 btn.setIcon(new ImageIcon(getClass().getResource("/images/bomb_ally.png")));
             } else if (associatedCell.getPiece() instanceof PieceFlag) {
@@ -60,9 +62,6 @@ public class Button {
                 btn.setIcon(new ImageIcon(getClass().getResource("/images/3_enemy.png")));
             } 
 
-        }
-        if(!associatedCell.getIsObstacle()){
-            btn.setText(null);
         }
     }
 
