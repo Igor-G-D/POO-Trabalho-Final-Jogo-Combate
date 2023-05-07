@@ -16,13 +16,7 @@ public class Button {
         btn = new JButton();
         associatedCell = cell;
         if( associatedCell.getIsObstacle() ) {
-            btn.setIcon(new ImageIcon("JogoCombate/Images/Lake.png"));
-            File imageCheck = new File("JogoCombate/Images/Lake.png");
-
-            if(imageCheck.exists()) 
-                System.out.println("Image file found!");
-            else 
-                System.out.println("Image file not found!");
+            btn.setIcon(new ImageIcon(getClass().getResource("/images/Lake.png")));
         }
         if( associatedCell.getPiece() instanceof PieceBomb ) {
             btn.setText("0");
