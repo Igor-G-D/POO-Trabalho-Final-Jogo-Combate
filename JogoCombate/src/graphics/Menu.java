@@ -17,7 +17,7 @@ public class Menu extends JFrame {
     public void showMenu() {
 
         setTitle("Combate");        
-        setSize(400, 600);
+        setSize(550, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
