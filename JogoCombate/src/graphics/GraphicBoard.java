@@ -55,7 +55,7 @@ public class GraphicBoard extends JFrame {
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1; // 100% width of panel
-        c.weighty = 0.2; // 10% height of panel
+        c.weighty = 0; // 10% height of panel
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
@@ -78,7 +78,7 @@ public class GraphicBoard extends JFrame {
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1; // 100% width of panel
-        c.weighty = 0.60; // 80% height of panel
+        c.weighty = 5; // 80% height of panel
         c.gridx = 0;
         c.gridy = 1;
         add(pMid, c);
@@ -93,7 +93,7 @@ public class GraphicBoard extends JFrame {
         
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1; // 100% width of panel
-        c.weighty = 0.2; // 10% height of panel
+        c.weighty = 0; // 10% height of panel
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 1;
