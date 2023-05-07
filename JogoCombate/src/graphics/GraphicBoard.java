@@ -58,7 +58,7 @@ public class GraphicBoard extends JFrame {
 
     public void showWindow() {
         
-        setTitle("Teste");
+        setTitle("Combate");
         setSize(550, 600);
         setResizable(false);
         setLocationRelativeTo(null);
