@@ -2,14 +2,18 @@ package graphics;
 
 import game.*;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,12 +38,16 @@ public class GraphicBoard extends JFrame {
     }
 
     public void showWindow() {
+        
         setTitle("Teste");
-        setSize(450, 600);
+        setSize(550, 600);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
+        
         setLayout(new GridBagLayout());
+        
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -47,7 +55,6 @@ public class GraphicBoard extends JFrame {
         JPanel pTop = new JPanel();
         pTop.setLayout(new GridBagLayout());
         pTop.setVisible(true);
-        //pTop.setBackground(Color.red);
 
         JLabel lbl1 = new JLabel(" ENEMY");
         pTop.add(lbl1);
@@ -99,6 +106,8 @@ public class GraphicBoard extends JFrame {
         c.gridwidth = 1;
         add(pBottom, c);
 
+        //setContentPane((new JLabel(new ImageIcon(getClass().getResource("/images/jogocombate (1).png")))));
+        //insert the background image in the frame, but this method puts the image above the other elements
         this.setVisible(true);
     }
 }

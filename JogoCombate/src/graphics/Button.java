@@ -17,7 +17,7 @@ public class Button {
         btn.setSize(50,50);
         associatedCell = cell;
         if( associatedCell.getIsObstacle() ) {
-            btn.setIcon(new ImageIcon(getClass().getResource("/images/Lake.png")));
+            btn.setIcon(new ImageIcon(getClass().getResource("/images/Lake (1).png")));
         }
 
     }
