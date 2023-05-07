@@ -319,8 +319,44 @@ public class Board {
         }
     }
 
-    public boolean enemyRandomMove() {
-        int randomx = RNG.nextInt(5);
+    public Cell[] enemyRandomMove() {
+        ArrayList<Integer> rows = new ArrayList<Integer>();
+        for(int i = 0; i < 5; i ++) {
+            rows.add(i);
+        }
+        Collections.shuffle(rows, RNG);
+
+        for (int i = 0 ; i < 5 ; i ++ ) {
+            for(int j = 4; j >= 0 ; j--) { // enemies start in positions x= 0, x = 1;
+                if(cells[rows.get(i)][j].getPiece() != null && cells[rows.get(i)][j].getPiece().getPlayerOwned() == false) {
+                    if( j + 1 < 5 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)][j+1], false)) { //move forward
+                        Cell cellsUsed[] = new Cell[2];
+                        cellsUsed[0] = cells[rows.get(i)][j];
+                        cellsUsed[1] = cells[rows.get(i)][i+1];
+                        return cellsUsed;
+                    } else if ( rows.get(i) + 1 < 5 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)+1][j], false)) {
+                        Cell cellsUsed[] = new Cell[2];
+                        cellsUsed[0] = cells[rows.get(i)][j];
+                        cellsUsed[1] = cells[rows.get(i)+1][j];
+                        return cellsUsed;
+                    } else if ( rows.get(i) - 1 >= 0 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)-1][j], false)) {
+                        Cell cellsUsed[] = new Cell[2];
+                        cellsUsed[0] = cells[rows.get(i)][j];
+                        cellsUsed[1] = cells[rows.get(i)-1][i];
+                        return cellsUsed;
+                    } else if ( j - 1 >= 0 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)][j-1], false)) {
+                        Cell cellsUsed[] = new Cell[2];
+                        cellsUsed[0] = cells[rows.get(i)][j];
+                        cellsUsed[1] = cells[rows.get(i)][j-1];
+                        return cellsUsed;
+                    }
+                }
+            }
+        }
+        Cell cellsUsed[] = new Cell[2];
+        cellsUsed[0] = null;
+        cellsUsed[1] = null;
+        return cellsUsed; // no valid moves were found;
 
 
     }

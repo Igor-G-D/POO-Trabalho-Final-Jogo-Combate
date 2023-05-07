@@ -164,6 +164,14 @@ public class GraphicBoard extends JFrame {
 
                 if(finishedTurn) {
                     System.out.println("Enemy Turn");
+                    Cell cellsUsed[] = new Cell[2];
+                    cellsUsed = bd.enemyRandomMove();
+
+                    if(cellsUsed[0] == null) {
+                        System.out.println("Enemy Can't move");
+                    } else {
+                        updateWindow();
+                    }
                 }
             }
         };
