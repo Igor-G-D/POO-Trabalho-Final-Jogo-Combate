@@ -30,20 +30,58 @@ public class Board {
             }
         }
 
-        removedPieces = new RemovedPieces();
+        removedPieces = new RemovedPieces(false);
 
     }
 
-    public void clearBoard() { 
+    public Board (Preset preset) {
+
+        int [][] presetValues = preset.getPreset();
         for(int i = 0 ; i < 5 ; i ++) {
+            boolean playerSide = false;
+            if(i > 2) {
+                playerSide = true;
+            }
             for(int j = 0; j < 5 ; j++) {
-                removedPieces.addPiece(this.cells[i][j].getPiece());
-                this.cells[i][j].removePiece();
+                if(presetValues[i][j] == -2) {
+                    cells[i][j] = new Cell(i,j,true);
+                } else {
+                    cells[i][j] = new Cell(i,j,false);
+                }
+
+                if (presetValues[i][j] == -1) {
+                    continue;
+                }
+
+                if (presetValues[i][j] == 0) {
+                    cells[i][j].placePiece(new PieceFlag(playerSide));
+                } else if (presetValues[i][j] == 2) {
+                    cells[i][j].placePiece(new PieceSoldier(playerSide));
+                } else if (presetValues[i][j] == 3) {
+                    cells[i][j].placePiece(new PieceCorporal(playerSide));
+                } else if (presetValues[i][j] == 10) {
+                    cells[i][j].placePiece(new PieceMarshall(playerSide));
+                } else if (presetValues[i][j] == 11) {
+                    cells[i][j].placePiece(new PieceBomb(playerSide));
+                } 
             }
         }
-    }
+        removedPieces = new RemovedPieces(true);
+    } 
+
+
+
+    // public void clearBoard() { 
+    //     for(int i = 0 ; i < 5 ; i ++) {
+    //         for(int j = 0; j < 5 ; j++) {
+    //             removedPieces.addPiece(this.cells[i][j].getPiece());
+    //             this.cells[i][j].removePiece();
+    //         }
+    //     }
+    // }
+
     public boolean playerPlacePieceStart(int x, int y, Piece piece) { //always used by the player, returns false if it couldn't place, true if it was placed
-        //TODO: handle exception thrown by Cell.placePIece() when trying to place in tile that is occupied, or is an obstacle
+        //TODO: handle exception thrown by Cell.placePiece() when trying to place in tile that is occupied, or is an obstacle
 
         if(!validPositionToPlace(x, y, true)) {
             return false;
@@ -201,10 +239,11 @@ public class Board {
         return false; //if it reaches this condition, means that it is trying to attack a piece that is non adjacent, which is an invalid move
     }
 
-    public void setStartRandom() {
+    public Preset setStartRandom() {
         randomizePositions(3, true); //randomize player pieces;
         randomizePositions(0, false); //randomize enemy positions
 
+        return new Preset(this);
         //TODO: exceptionn for when the board isn't empty
     }
 
