@@ -30,14 +30,6 @@ public class Board {
             }
         }
 
-        /* test for piece placement on graphicBoard
-        cells[0][0].placePiece(new PieceBomb(true));
-        cells[0][1].placePiece(new PieceMarshall(true));        
-        cells[0][2].placePiece(new PieceSpy(true));        
-        cells[0][3].placePiece(new PieceSoldier(true));        
-        cells[0][4].placePiece(new PieceFlag(true));
-        cells[1][0].placePiece(new PieceCorporal(true));*/
-
         removedPieces = new RemovedPieces();
 
     }

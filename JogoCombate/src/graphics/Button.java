@@ -1,7 +1,9 @@
 package graphics;
 
 import java.awt.Color;
+import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import game.*;
@@ -9,12 +11,12 @@ import game.*;
 public class Button {
     private JButton btn;
     private Cell associatedCell;
-
+    //COMETARIA
     public Button(Cell cell) {
         btn = new JButton();
         associatedCell = cell;
         if( associatedCell.getIsObstacle() ) {
-            btn.setText("X");
+            btn.setIcon(new ImageIcon(getClass().getResource("/images/Lake.png")));
         }
         if( associatedCell.getPiece() instanceof PieceBomb ) {
             btn.setText("0");
