@@ -19,18 +19,29 @@ public class GraphicBoard extends JFrame {
     private Button previousButton;
     private Button enemyPieces[];
     private Button playerPieces[];
+    private int[] playerPiecesLeft;
+    private int[] enemyPiecesLeft;
+    private Label lblPlayer[];
+    private Label lblEnemy[];
 
     public GraphicBoard() {
         bd = new Board();
         btn = new Button[5][5];
         playerPieces = new Button[6];
+        playerPiecesLeft = new int[6];
+        lblPlayer = new Label[6];
         enemyPieces = new Button[6];
+        enemyPiecesLeft = new int[6];
+        lblEnemy = new Label[6];
 
         for( int i = 0 ; i<5 ; i++ ) {
             for( int j = 0 ; j<5 ; j++ ) {
                 btn[i][j] = new Button(bd.getCell(i, j));
             }
         }
+
+        getPiecesLeft(false);
+        getPiecesLeft(true);
 
         getPiecesArray(true);
         getPiecesArray(false);
@@ -40,6 +51,7 @@ public class GraphicBoard extends JFrame {
 
     //TODO: insert pieces from both player and enemy on the grid
 
+    
     public Board getBoard() {
         return bd;
     }
@@ -57,7 +69,6 @@ public class GraphicBoard extends JFrame {
     }
 
     public void showWindow() {
-        
         setTitle("Combate");
         setSize(550, 800);
         setResizable(false);
@@ -89,11 +100,15 @@ public class GraphicBoard extends JFrame {
 
         // PANEL 1 CONFIGURATION
         JPanel pTop = new JPanel();
-        pTop.setLayout(new GridBagLayout());
+        pTop.setLayout(new GridLayout());
         pTop.setVisible(true);
+        pTop.setBorder(BorderFactory.createEmptyBorder(10, 70, 10, 30));
 
-        JLabel lbl1 = new JLabel("Enemy");
-        pTop.add(lbl1);
+        /* */
+        for( int i = 0 ; i<6 ; i++ ) {
+            lblEnemy[i] = new Label(String.valueOf("x" + enemyPiecesLeft[i]));
+            pTop.add(lblEnemy[i]);
+        }
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1; // 100% width of panel
@@ -123,9 +138,14 @@ public class GraphicBoard extends JFrame {
         add(pMid, c);
 
         // PANEL 3 CONFIGURATION
-        JPanel pBottom = new JPanel(new GridBagLayout());
-        JLabel lblPlayerPieces = new JLabel("Player");
-        pBottom.add(lblPlayerPieces);
+        JPanel pBottom = new JPanel(new GridLayout());        
+        pBottom.setBorder(BorderFactory.createEmptyBorder(10, 70, 10, 30));
+        pBottom.setVisible(true);
+        for( int i = 0 ; i<6 ; i++ ) {
+            lblPlayer[i] = new Label(String.valueOf("x" + playerPiecesLeft[i]));
+            pBottom.add(lblPlayer[i]);
+        }
+
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1;
         c.weighty = 1;
@@ -243,6 +263,24 @@ public class GraphicBoard extends JFrame {
             enemyPieces[3] = new Button(new PieceSpy(playerOwned));
             enemyPieces[4] = new Button(new PieceMarshall(playerOwned));
             enemyPieces[5] = new Button(new PieceCorporal(playerOwned));
+        }
+    }
+
+    private void getPiecesLeft(boolean b) {
+        if(b == true) {
+            playerPiecesLeft[0] = bd.getRemovedPieces().numberPiecesRemoved(PieceBomb.class, b);
+            playerPiecesLeft[1] = bd.getRemovedPieces().numberPiecesRemoved(PieceFlag.class, b);
+            playerPiecesLeft[2] = bd.getRemovedPieces().numberPiecesRemoved(PieceSoldier.class, b);
+            playerPiecesLeft[3] = bd.getRemovedPieces().numberPiecesRemoved(PieceSpy.class, b);
+            playerPiecesLeft[4] = bd.getRemovedPieces().numberPiecesRemoved(PieceMarshall.class, b);
+            playerPiecesLeft[5] = bd.getRemovedPieces().numberPiecesRemoved(PieceCorporal.class, b);
+        } else {
+            enemyPiecesLeft[0] = bd.getRemovedPieces().numberPiecesRemoved(PieceBomb.class, b);
+            enemyPiecesLeft[1] = bd.getRemovedPieces().numberPiecesRemoved(PieceFlag.class, b);
+            enemyPiecesLeft[2] = bd.getRemovedPieces().numberPiecesRemoved(PieceSoldier.class, b);
+            enemyPiecesLeft[3] = bd.getRemovedPieces().numberPiecesRemoved(PieceSpy.class, b);
+            enemyPiecesLeft[4] = bd.getRemovedPieces().numberPiecesRemoved(PieceMarshall.class, b);
+            enemyPiecesLeft[5] = bd.getRemovedPieces().numberPiecesRemoved(PieceCorporal.class, b);
         }
     }
 }
