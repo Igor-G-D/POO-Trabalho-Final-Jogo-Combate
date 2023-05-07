@@ -14,6 +14,7 @@ public class Board {
     private Cell cells[][] = new Cell[5][5];
     private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
     private Random RNG;
+    private int hint;
 
     public Board () {
         this.RNG = new Random(System.currentTimeMillis());
@@ -31,6 +32,7 @@ public class Board {
         }
 
         removedPieces = new RemovedPieces(false);
+        hint = 2;
 
     }
 
@@ -70,6 +72,25 @@ public class Board {
     } 
 
 
+    public int getHint() {
+        return hint;
+    }
+
+    public boolean getHintColumn(int x) {
+        if(hint == 0) {
+            return false;
+        }
+        for(int j = 0; j < 5 ; j++) {
+            if(cells[x][j].getPiece() != null) {
+                if(cells[x][j].getPiece() instanceof PieceBomb && !cells[x][j].getPiece().getPlayerOwned()) {
+                    this.hint--;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     // public void clearBoard() { 
     //     for(int i = 0 ; i < 5 ; i ++) {
