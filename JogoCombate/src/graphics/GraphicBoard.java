@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 public class GraphicBoard extends JFrame {
     private Board bd;
     private Button btn[][];
+    private Button previousButton;
 
     public GraphicBoard() {
         bd = new Board();
@@ -33,12 +34,18 @@ public class GraphicBoard extends JFrame {
                 btn[i][j] = new Button(bd.getCell(i, j));
             }
         }
+
+        previousButton = null;
     }
 
     //TODO: insert pieces from both player and enemy on the grid
 
     public Board getBoard() {
         return bd;
+    }
+
+    public void updateCell(int x, int y) {
+        btn[x][y].upgradeImage();
     }
 
     public void updateWindow() {
@@ -123,11 +130,28 @@ public class GraphicBoard extends JFrame {
     }
 
     public void playGame() {
+        
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Button button = (Button) e.getSource();
                 System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n");
+                
+                if(previousButton == null) { // nothing was pressed before, or a piece without a piece was chosen, or a enemy piece was chosen
+                    setPreviousButton(button);
+                    return;
+                } else if(previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
+                    if(button.getAssociatedCell().getPiece() == null) {
+                        bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
+                        updateCell(previousButton.getAssociatedCell().getPosx(), previousButton.getAssociatedCell().getPosy());
+                        updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
+
+                        setPreviousButton(null);
+                    }
+                } else if(!previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
+                    setPreviousButton(null);
+                }
+
             }
         };
 
@@ -137,4 +161,24 @@ public class GraphicBoard extends JFrame {
             }
         }
     }
+    private void removeActionListeners(ActionListener e) {
+        for(int i = 0 ; i < 5 ; i ++) {
+            for ( int j = 0 ; j < 5 ; j ++) {
+                btn[i][j].removeActionListener(e);
+            }
+        }
+    
+    }
+    private void setPreviousButton (Button b) {
+        if(b == null) {
+            this.previousButton = null;
+        } else if(b.getAssociatedCell().getPiece() == null) {
+            this.previousButton = null;
+        } else {
+            this.previousButton = b;
+        }
+
+    }
 }
+
+
