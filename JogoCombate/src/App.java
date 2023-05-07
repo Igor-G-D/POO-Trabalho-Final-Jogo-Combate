@@ -8,9 +8,8 @@ public class App {
         gb.getBoard().setStartRandom();
 
         gb.showWindow();
-        gb.updateWindow();
 
-        gb.getBoard().moveOrAttack(gb.getBoard().getCell(3, 2), gb.getBoard().getCell(2, 2), true);
+        gb.getBoard().setDebug(true);
 
         gb.updateWindow();
 

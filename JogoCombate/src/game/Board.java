@@ -13,6 +13,7 @@ import java.lang.Math;
 public class Board {
     private Cell cells[][] = new Cell[5][5];
     private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
+
     private Random RNG;
 
     public Board () {
@@ -231,6 +232,7 @@ public class Board {
                 destination.removePiece();
                 movePiece(start, destination);// piece that attacks occupies the space of the piece it won against
             }
+            return true;
 
             //TODO: Check for game end using the method removedPieces.gameEnd()
             // the game can only end after an attack is made, moving will not change the state of the game
@@ -316,6 +318,10 @@ public class Board {
 
             //TODO: throw exception when piecesLeft isn't empty after the last for
         }
+    }
+
+    public RemovedPieces getRemovedPieces() {
+        return removedPieces;
     }
 
     private Cell findObstacle() {

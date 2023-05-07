@@ -135,19 +135,21 @@ public class GraphicBoard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Button button = (Button) e.getSource();
-                System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n");
+                System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n"); // TODO: remove console print
                 
+                boolean finishedTurn = false;
+
                 if(previousButton == null) { // nothing was pressed before, or a piece without a piece was chosen, or a enemy piece was chosen
                     setPreviousButton(button);
                 } else if(previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
                     if(button.getAssociatedCell().getPiece() == null) {
-                        bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
+                        finishedTurn = bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
                         updateCell(previousButton.getAssociatedCell().getPosx(), previousButton.getAssociatedCell().getPosy());
                         updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
 
                         setPreviousButton(null);
                     } else if (!button.getAssociatedCell().getPiece().getPlayerOwned()){
-                        bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
+                        finishedTurn = bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
                         updateCell(previousButton.getAssociatedCell().getPosx(), previousButton.getAssociatedCell().getPosy());
                         updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
                         
@@ -157,6 +159,12 @@ public class GraphicBoard extends JFrame {
                     setPreviousButton(button);
                 }
 
+                System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
+               
+
+                if(finishedTurn) {
+                    System.out.println("Enemy Turn");
+                }
             }
         };
 
