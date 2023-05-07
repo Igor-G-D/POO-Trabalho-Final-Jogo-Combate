@@ -8,5 +8,6 @@ public class App {
         gb.getBoard().setStartRandom();
 
         gb.showWindow();
+        gb.updateWindow();
     }
 }

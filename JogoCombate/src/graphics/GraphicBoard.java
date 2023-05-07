@@ -25,6 +25,14 @@ public class GraphicBoard extends JFrame {
         return bd;
     }
 
+    public void updateWindow() {
+        for(int i=0;i<5;i++) {
+            for(int j=0;j<5;j++) {
+                btn[i][j].upgradeImage();
+            }
+        }
+    }
+
     public void showWindow() {
         setTitle("Teste");
         setSize(450, 600);

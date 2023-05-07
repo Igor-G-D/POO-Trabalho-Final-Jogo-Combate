@@ -20,8 +20,12 @@ public class Button {
     }
         //btn.setBackground(Color.LIGHT_GRAY);
 
-    public void upgradeImage(Cell cell){
-        if(cell.getPiece().getPlayerOwned() == true){
+    public void upgradeImage(){
+        if(associatedCell.getPiece() == null && !associatedCell.getIsObstacle()) {
+            btn.setIcon(null);
+            return;
+        } 
+        if(associatedCell.getPiece().getPlayerOwned() == true){
             if(associatedCell.getPiece() instanceof PieceBomb) {
                 btn.setIcon(new ImageIcon(getClass().getResource("/images/bomb_ally.png")));
             } else if (associatedCell.getPiece() instanceof PieceFlag) {
@@ -37,7 +41,9 @@ public class Button {
             } 
         }
         else{
-            if(associatedCell.getPiece() instanceof PieceBomb) {
+            if(!associatedCell.getPiece().getIsVisible()) {
+                btn.setIcon(new ImageIcon(getClass().getResource("/images/piece_enemy.png")));
+            } else if(associatedCell.getPiece() instanceof PieceBomb) {
                 btn.setIcon(new ImageIcon(getClass().getResource("/images/bomb_enemy.png")));
             } else if (associatedCell.getPiece() instanceof PieceFlag) {
                 btn.setIcon(new ImageIcon(getClass().getResource("/images/flag_enemy.png")));
@@ -51,9 +57,6 @@ public class Button {
                 btn.setIcon(new ImageIcon(getClass().getResource("/images/3_enemy.png")));
             } 
 
-        }
-        if(!associatedCell.getIsObstacle()){
-            btn.setText(null);
         }
     }
     public JButton getButton() {
