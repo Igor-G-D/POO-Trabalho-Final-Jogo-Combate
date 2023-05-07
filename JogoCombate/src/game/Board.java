@@ -13,7 +13,6 @@ import java.lang.Math;
 public class Board {
     private Cell cells[][] = new Cell[5][5];
     private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
-
     private Random RNG;
 
     public Board () {
@@ -318,6 +317,12 @@ public class Board {
 
             //TODO: throw exception when piecesLeft isn't empty after the last for
         }
+    }
+
+    public boolean enemyRandomMove() {
+        int randomx = RNG.nextInt(5);
+
+
     }
 
     public RemovedPieces getRemovedPieces() {
