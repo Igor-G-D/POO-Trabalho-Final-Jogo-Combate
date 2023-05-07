@@ -9,7 +9,7 @@ import game.*;
 public class Button {
     private JButton btn;
     private Cell associatedCell;
-
+    //COMETARIA
     public Button(Cell cell) {
         btn = new JButton();
         associatedCell = cell;
