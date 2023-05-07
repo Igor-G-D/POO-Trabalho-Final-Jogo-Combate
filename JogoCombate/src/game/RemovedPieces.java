@@ -98,4 +98,50 @@ public class RemovedPieces {
         return false; // means there are no movable pieces left in the board, they are all stored in this class
     }
     // TODO: function to return if returnedPieces is all empty
+
+    public <T> int numberPiecesRemoved(Class<T> type, boolean playerOwned) {
+        if(type.equals(PieceSpy.class)) {
+            if (getPiecesSet(playerOwned).getSpy() == null) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else if(type.equals(PieceSoldier.class)) {
+            int temp = 0;
+            for(int i = 0 ; i < 3 ; i++) {
+                if (getPiecesSet(playerOwned).getSoldier()[i] != null) {
+                    temp++;
+                }
+            }
+            return temp;
+        } else if(type.equals(PieceCorporal.class)) {
+            int temp = 0;
+            for(int i = 0 ; i < 2 ; i++) {
+                if (getPiecesSet(playerOwned).getCorporal()[i] != null) {
+                    temp++;
+                }
+            }
+            return temp;
+        } else if(type.equals(PieceMarshall.class)) {
+            if (getPiecesSet(playerOwned).getMarshall() == null) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else if(type.equals(PieceBomb.class)) {
+            int temp = 0;
+            for(int i = 0 ; i < 2 ; i++) {
+                if (getPiecesSet(playerOwned).getBomb()[i] != null) {
+                    temp++;
+                }
+            }
+            return temp;
+        } else {
+            if (getPiecesSet(playerOwned).getFlag() == null) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    }
 }
