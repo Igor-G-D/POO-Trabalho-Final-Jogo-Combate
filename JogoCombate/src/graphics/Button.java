@@ -17,9 +17,10 @@ public class Button {
         btn.setSize(50,50);
         associatedCell = cell;
         if( associatedCell.getIsObstacle() ) {
-            btn.setIcon(new ImageIcon(getClass().getResource("/images/Lake (1).png")));
+            btn.setIcon(new ImageIcon(getClass().getResource("/images/Lake.png")));
         }
-
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
     }
         //btn.setBackground(Color.LIGHT_GRAY);
 

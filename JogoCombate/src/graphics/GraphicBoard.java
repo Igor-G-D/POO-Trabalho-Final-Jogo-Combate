@@ -71,7 +71,7 @@ public class GraphicBoard extends JFrame {
         c.gridwidth = 2;
 
         // BUTTONS` GRID CONFIGURATION
-        JPanel pMid = new JPanel(new GridLayout(5, 5));
+        BackgroundJPanel pMid = new BackgroundJPanel();
         pMid.setVisible(true);
 
         for( int i = 0 ; i<5 ; i++ ) {
