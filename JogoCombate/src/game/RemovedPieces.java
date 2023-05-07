@@ -51,12 +51,13 @@ public class RemovedPieces {
 
     public int gameEnd() { // -1 = enemy win, 0 = continue game, 1 = player win, 2 = tie (no pieces that can move are left)
         //TODO: add exception for when both enemy and player has their flags captured (invalid state)
-        if(playerPieces.getFlag() != null) { // if the player's flag was removed
-            return -1; // defeat
-        } else if (enemyPieces.getFlag() != null) { // if the enemy flag was removed
-            return 1; // victory
-        } else if ((!checkMovablePieces(enemyPieces)) && (!checkMovablePieces(playerPieces))) { // if no movable pieces are left on both sides
+        
+        if ((!checkMovablePieces(enemyPieces)) && (!checkMovablePieces(playerPieces))) { // if no movable pieces are left on both sides
             return 2; // tie
+        } else if(playerPieces.getFlag() != null || (!checkMovablePieces(enemyPieces))) { // if the player's flag was removed or if enemy has no movable pieces
+            return -1; // defeat
+        } else if (enemyPieces.getFlag() != null || (!checkMovablePieces(playerPieces))) { // if the enemy flag was removed or if if player has no movable pieces
+            return 1; // victory
         } else {
             return 0; // game isn't over
         }

@@ -185,6 +185,10 @@ public class GraphicBoard extends JFrame {
         this.setVisible(true);
     }
 
+    public void playerChoosePositions() {
+
+    }
+
     public void playGame() {
         
         ActionListener listener = new ActionListener() {
@@ -214,10 +218,17 @@ public class GraphicBoard extends JFrame {
                 } else if(!previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
                     setPreviousButton(button);
                 }
-
-                System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
                
                 updateCounters();
+
+                System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
+                if(bd.getRemovedPieces().gameEnd() == 1) {
+                    removeActionListeners(this);
+                } else if (bd.getRemovedPieces().gameEnd() == -1) {
+                    removeActionListeners(this);
+                } else if (bd.getRemovedPieces().gameEnd() == 2) {
+                    removeActionListeners(this);
+                }
 
                 if(finishedTurn) {
                     System.out.println("Enemy Turn");
@@ -231,6 +242,15 @@ public class GraphicBoard extends JFrame {
                     }
                     updateCounters();
                 }
+
+                System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
+                if(bd.getRemovedPieces().gameEnd() == 1) {
+                    removeActionListeners(this);
+                } else if (bd.getRemovedPieces().gameEnd() == -1) {
+                    removeActionListeners(this);
+                } else if (bd.getRemovedPieces().gameEnd() == 2) {
+                    removeActionListeners(this);
+                }
             }
         };
 
@@ -240,6 +260,7 @@ public class GraphicBoard extends JFrame {
             }
         }
     }
+
     private void removeActionListeners(ActionListener e) {
         for(int i = 0 ; i < 5 ; i ++) {
             for ( int j = 0 ; j < 5 ; j ++) {
