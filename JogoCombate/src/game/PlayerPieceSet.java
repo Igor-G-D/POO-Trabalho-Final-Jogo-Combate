@@ -91,7 +91,7 @@ public class PlayerPieceSet {
     }
 
     public Piece removeMarshall() {
-        if(spy != null) {
+        if(marshall != null) {
             Piece temp = marshall;
             marshall = null;
             return temp;

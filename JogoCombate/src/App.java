@@ -13,6 +13,8 @@ public class App {
 
         gb.updateWindow();
 
+        gb.updateCounters();
+
         gb.playGame();
     }
 }

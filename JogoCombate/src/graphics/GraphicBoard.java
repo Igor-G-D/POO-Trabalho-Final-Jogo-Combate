@@ -71,6 +71,15 @@ public class GraphicBoard extends JFrame {
         }
     }
 
+    public void updateCounters() {
+        getPiecesLeft(false);
+        getPiecesLeft(true);
+        for(int i=0;i<6;i++) {
+            lblPlayer[i].setText(String.valueOf("x" + playerPiecesLeft[i]));
+            lblEnemy[i].setText(String.valueOf("x" + enemyPiecesLeft[i]));
+        }
+    }
+
     public void showWindow() {
         setTitle("Combate");
         setSize(750, 800);
@@ -239,6 +248,7 @@ public class GraphicBoard extends JFrame {
 
                 System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
                
+                updateCounters();
 
                 if(finishedTurn) {
                     System.out.println("Enemy Turn");
@@ -250,6 +260,7 @@ public class GraphicBoard extends JFrame {
                     } else {
                         updateWindow();
                     }
+                    updateCounters();
                 }
             }
         };
