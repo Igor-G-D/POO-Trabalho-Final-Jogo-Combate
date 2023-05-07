@@ -2,6 +2,7 @@ package graphics;
 
 import game.*;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -70,7 +73,7 @@ public class GraphicBoard extends JFrame {
 
     public void showWindow() {
         setTitle("Combate");
-        setSize(550, 800);
+        setSize(750, 800);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -81,10 +84,32 @@ public class GraphicBoard extends JFrame {
 
         GridBagConstraints c = new GridBagConstraints();
 
+        // OPERATION BUTTONS
+        JPanel pOpButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pOpButtons.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        pOpButtons.setVisible(true);
+
+        JButton startB = new JButton("Jogar");
+        JButton restartB = new JButton("Dica");
+        pOpButtons.add(startB);
+        pOpButtons.add(restartB);
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1; // 100% width of panel
+        c.weighty = 1; // 10% height of panel
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        add(pOpButtons, c);
+        
+        
+        
+
         // ENEMY`S LEFT PIECES
         JPanel pTopButtons = new JPanel(new GridLayout());
         pTopButtons.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         pTopButtons.setVisible(true);
+        
+        
 
         for( int i = 0 ; i<6 ; i++ ) {
             pTopButtons.add(enemyPieces[i]);
@@ -94,15 +119,19 @@ public class GraphicBoard extends JFrame {
         c.weightx = 1; // 100% width of panel
         c.weighty = 2; // 10% height of panel
         c.gridx = 0;
-        c.gridy = 0;
+        c.gridy = 1;
         c.gridwidth = 1;
         add(pTopButtons, c);
+
+        
 
         // PANEL 1 CONFIGURATION
         JPanel pTop = new JPanel();
         pTop.setLayout(new GridLayout());
         pTop.setVisible(true);
         pTop.setBorder(BorderFactory.createEmptyBorder(10, 70, 10, 30));
+
+        
 
         /* */
         for( int i = 0 ; i<6 ; i++ ) {
@@ -112,9 +141,9 @@ public class GraphicBoard extends JFrame {
 
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1; // 100% width of panel
-        c.weighty = 1; // 10% height of panel
+        c.weighty = 2; // 10% height of panel
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 2;
         c.gridwidth = 2;
         add(pTop, c);
 
@@ -134,7 +163,7 @@ public class GraphicBoard extends JFrame {
         c.weightx = 1; // 100% width of panel
         c.weighty = 2; // 80% height of panel
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 3;
         add(pMid, c);
 
         // PANEL 3 CONFIGURATION
@@ -150,7 +179,7 @@ public class GraphicBoard extends JFrame {
         c.weightx = 1;
         c.weighty = 1;
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 4;
         c.gridwidth = 1;
         add(pBottom, c);
 
@@ -167,9 +196,11 @@ public class GraphicBoard extends JFrame {
         c.weightx = 1; // 100% width of panel
         c.weighty = 2; // 10% height of panel
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 5;
         c.gridwidth = 1;
         add(pBottomButtons, c);
+
+        
 
         //setContentPane((new JLabel(new ImageIcon(getClass().getResource("/images/jogocombate (1).png")))));
         //insert the background image in the frame, but this method puts the image above the other elements
