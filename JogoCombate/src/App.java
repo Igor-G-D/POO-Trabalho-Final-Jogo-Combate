@@ -13,5 +13,7 @@ public class App {
         gb.getBoard().moveOrAttack(gb.getBoard().getCell(3, 2), gb.getBoard().getCell(2, 2), true);
 
         gb.updateWindow();
+
+        gb.playGame();
     }
 }

@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,8 +21,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GraphicBoard extends JFrame {
-    private Board bd = new Board();
-    private Button btn[][] = new Button[5][5];
+    private Board bd;
+    private Button btn[][];
+
+    public GraphicBoard() {
+        bd = new Board();
+        btn = new Button[5][5];
+
+        for( int i = 0 ; i<5 ; i++ ) {
+            for( int j = 0 ; j<5 ; j++ ) {
+                btn[i][j] = new Button(bd.getCell(i, j));
+            }
+        }
+    }
 
     //TODO: insert pieces from both player and enemy on the grid
 
@@ -76,8 +88,7 @@ public class GraphicBoard extends JFrame {
 
         for( int i = 0 ; i<5 ; i++ ) {
             for( int j = 0 ; j<5 ; j++ ) {
-                btn[i][j] = new Button(bd.getCell(i, j));
-                pMid.add(btn[i][j].getButton());
+                pMid.add(btn[i][j]);
             }
         }
 
@@ -109,5 +120,21 @@ public class GraphicBoard extends JFrame {
         //setContentPane((new JLabel(new ImageIcon(getClass().getResource("/images/jogocombate (1).png")))));
         //insert the background image in the frame, but this method puts the image above the other elements
         this.setVisible(true);
+    }
+
+    public void playGame() {
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Button button = (Button) e.getSource();
+                System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n");
+            }
+        };
+
+        for(int i = 0 ; i < 5 ; i ++) {
+            for ( int j = 0 ; j < 5 ; j ++) {
+                btn[i][j].addActionListener(listener);
+            }
+        }
     }
 }
