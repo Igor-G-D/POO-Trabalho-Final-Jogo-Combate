@@ -3,7 +3,7 @@ package game;
 public class Preset {
     int preset[][] = new int[5][5];
 
-    Preset(Board board) { // doesn't store if its player owned;
+    public Preset(Board board) { // doesn't store if its player owned;
         for(int i = 0 ; i < 5 ; i ++) {
             for(int j = 0; j < 5 ; j++) {
                 if(board.getCell(i, j).getPiece() == null) {

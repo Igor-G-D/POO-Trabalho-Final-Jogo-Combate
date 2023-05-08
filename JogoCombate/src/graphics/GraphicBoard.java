@@ -231,8 +231,22 @@ public class GraphicBoard extends JFrame {
 
                 if (button.equals(startDebugB)) {
                     if(bd.getRemovedPieces().validGameStart()) {
-                        //TODO: start game
-                        System.out.println("Game can start!");
+  
+                        Menu.setPreviousGame(new Preset(bd));
+
+                        startDebugB.removeActionListener(this);
+
+                        for(int i = 0 ; i < 5 ; i ++) {
+                            for ( int j = 0 ; j < 5 ; j ++) {
+                                btn[i][j].removeActionListener(this);
+                            }
+                        }
+                        for(int i = 0 ; i < 6 ; i ++) {
+                            playerPieces[i].removeActionListener(this);    
+                        }
+
+                        playGame();
+
                     } else {
                         infoBox("Please place all your pieces!", "Game: ");
                     }
@@ -242,7 +256,6 @@ public class GraphicBoard extends JFrame {
                             bd.getRemovedPieces().addPiece(button.getAssociatedCell().getPiece());
                             button.getAssociatedCell().removePiece();
                             updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
-                            updateCounters();
                         }
                         previousButton = null;
                     } else {

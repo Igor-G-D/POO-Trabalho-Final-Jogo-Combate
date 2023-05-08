@@ -13,8 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import game.*;
+
 public class Menu extends JFrame {
-    public void showMenu() {
+
+    private static Preset previousGame;
+    private GraphicBoard gb;
+    private JButton btnRandom;
+    private JButton btnSort;
+
+    private void showMenu() {
 
         setTitle("Combate");        
         setSize(550, 600);
@@ -44,7 +52,7 @@ public class Menu extends JFrame {
 
         JPanel pleft = new JPanel(new GridLayout());
         pleft.setVisible(true);
-        JButton btnRandom = new JButton("Posição Aleatória");
+        btnRandom = new JButton("Posição Aleatória");
         // ON CLICK ACTION
         btnRandom.addActionListener(new ActionListener() {
 
@@ -69,7 +77,7 @@ public class Menu extends JFrame {
 
         JPanel pright = new JPanel(new GridLayout());
         pright.setVisible(true);
-        JButton btnSort = new JButton("Definir Posições");
+        btnSort = new JButton("Definir Posições");
         // ON CLICK ACTION
         btnSort.addActionListener(new ActionListener() {
 
@@ -92,5 +100,52 @@ public class Menu extends JFrame {
         add(pright, c);
 
         setVisible(true);
+    }
+
+    public void startMenu() {
+        showMenu();
+
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton button = (JButton) e.getSource();
+                if(button.equals(btnRandom)) {
+                    startRandomSetGame();
+                } else {
+                    startPlayerSetGame();
+                }
+            }
+        };
+
+        btnRandom.addActionListener(listener);
+        btnSort.addActionListener(listener);
+    }
+
+    public void setVisibilityMenu(boolean b) {
+        setVisible(b);
+    }
+
+    private void startRandomSetGame() {
+
+        gb = new GraphicBoard();
+        gb.getBoard().setStartRandom();
+        previousGame = new Preset(gb.getBoard());
+        setVisibilityMenu(false);
+        gb.showWindow();
+        gb.updateWindow();
+        gb.playGame();
+    }
+
+    private void startPlayerSetGame() {
+        gb = new GraphicBoard();
+        gb.getBoard().randomizePositions(0, false);;
+        setVisibilityMenu(false);
+        gb.showWindow();
+        gb.updateWindow();
+        gb.playerChoosePositions();
+    }
+
+    static void setPreviousGame (Preset preset) {
+        previousGame = preset;
     }
 }
