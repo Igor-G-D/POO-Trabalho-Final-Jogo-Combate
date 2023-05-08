@@ -1,7 +1,5 @@
 package graphics;
 
-import java.awt.Image;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

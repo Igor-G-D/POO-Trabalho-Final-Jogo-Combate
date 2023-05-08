@@ -98,7 +98,6 @@ public class RemovedPieces {
 
         return false; // means there are no movable pieces left in the board, they are all stored in this class
     }
-    // TODO: function to return if returnedPieces is all empty
 
     public <T> int numberPiecesRemoved(Class<T> type, boolean playerOwned) {
         if(type.equals(PieceSpy.class)) {

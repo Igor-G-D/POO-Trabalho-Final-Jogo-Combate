@@ -12,7 +12,7 @@ import java.lang.Math;
 
 public class Board {
     private Cell cells[][] = new Cell[5][5];
-    private RemovedPieces removedPieces; //TODO: start removed pieces filled, then place all pieces on the board to start the game
+    private RemovedPieces removedPieces;
     private Random RNG;
     private int hint;
 
@@ -256,7 +256,6 @@ public class Board {
             }
             return true;
 
-            //TODO: Check for game end using the method removedPieces.gameEnd()
             // the game can only end after an attack is made, moving will not change the state of the game
         }
 
@@ -268,13 +267,11 @@ public class Board {
         randomizePositions(0, false); //randomize enemy positions
 
         return new Preset(this);
-        //TODO: exceptionn for when the board isn't empty
+        //TODO: exception for when the board isn't empty
     }
 
     public void setStartPlayerChoice() {
         randomizePositions(3, false); //randomize enemy positions
-
-        //TODO: allow player to choose the position for their own pieces;
     }
 
     public void randomizePositions (int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4

@@ -15,8 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import game.*;
-
 public class GameEndScreen extends JFrame {
 
     private JButton btnRestart;

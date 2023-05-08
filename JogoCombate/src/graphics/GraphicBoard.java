@@ -12,10 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -91,9 +88,6 @@ public class GraphicBoard extends JFrame {
 
         previousButton = null;
     }
-
-    //TODO: insert pieces from both player and enemy on the grid
-
     
     public Board getBoard() {
         return bd;
