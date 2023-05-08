@@ -9,8 +9,6 @@ public class App {
 
         gb.showWindow();
 
-        gb.getBoard().setDebug(true);
-
         gb.updateWindow();
 
         gb.updateCounters();

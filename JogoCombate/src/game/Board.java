@@ -81,14 +81,14 @@ public class Board {
             return false;
         }
         for(int j = 0; j < 5 ; j++) {
-            if(cells[x][j].getPiece() != null) {
-                if(cells[x][j].getPiece() instanceof PieceBomb && !cells[x][j].getPiece().getPlayerOwned()) {
+            if(cells[j][x].getPiece() != null) {
+                if(cells[j][x].getPiece() instanceof PieceBomb && !cells[j][x].getPiece().getPlayerOwned()) {
                     this.hint--;
                     return true;
                 }
             }
         }
-
+        this.hint--;
         return false;
     }
 

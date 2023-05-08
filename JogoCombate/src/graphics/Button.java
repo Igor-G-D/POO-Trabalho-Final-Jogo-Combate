@@ -13,6 +13,11 @@ public class Button extends JButton {
     private Piece associatedPiece;
     
     
+    public Button() {
+        associatedCell = null;
+        associatedPiece = null;
+    }
+
     public Button(Cell cell) {
         this.setSize(50,50);
         this.associatedPiece = null;

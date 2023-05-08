@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GraphicBoard extends JFrame {
@@ -26,6 +27,8 @@ public class GraphicBoard extends JFrame {
     private int[] enemyPiecesLeft;
     private Label lblPlayer[];
     private Label lblEnemy[];
+    private Button startDebugB;
+    private Button hintB;
 
     public GraphicBoard() {
         bd = new Board();
@@ -36,6 +39,11 @@ public class GraphicBoard extends JFrame {
         enemyPieces = new Button[6];
         enemyPiecesLeft = new int[6];
         lblEnemy = new Label[6];
+
+        startDebugB = new Button();
+        hintB = new Button();
+        hintB.setEnabled(false);
+        
 
         for( int i = 0 ; i<5 ; i++ ) {
             for( int j = 0 ; j<5 ; j++ ) {
@@ -98,10 +106,8 @@ public class GraphicBoard extends JFrame {
         pOpButtons.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
         pOpButtons.setVisible(true);
 
-        JButton startB = new JButton("Jogar");
-        JButton restartB = new JButton("Dica");
-        pOpButtons.add(startB);
-        pOpButtons.add(restartB);
+        pOpButtons.add(startDebugB);
+        pOpButtons.add(hintB);
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1; // 100% width of panel
         c.weighty = 1; // 10% height of panel
@@ -220,18 +226,41 @@ public class GraphicBoard extends JFrame {
 
     }
 
+    public static void infoBox(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public void playGame() {
         
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Button button = (Button) e.getSource();
-                System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n"); // TODO: remove console print
+                //System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n"); // TODO: remove console print
                 
                 boolean finishedTurn = false;
+                //        gb.getBoard().setDebug(true);
 
-                if(previousButton == null) { // nothing was pressed before, or a piece without a piece was chosen, or a enemy piece was chosen
+                if (button.equals(startDebugB)) {
+                    bd.setDebug(true);
+                    updateWindow();
+                    button.setEnabled(false);
+                } else if (previousButton == null) { // nothing was pressed before, or a piece without a piece was chosen, or a enemy piece was chosen
                     setPreviousButton(button);
+                } else if (previousButton.equals(hintB) && button.getAssociatedCell() != null) {
+                    if(bd.getHintColumn(button.getAssociatedCell().getPosy())) {
+                        infoBox("There is an enemy bomb in this column", "Hint: ");
+                    } else {
+                        infoBox("There is not an enemy bomb in this column", "Hint: ");
+                    }
+                    previousButton.setText("Hint x"+bd.getHint());
+                    if(bd.getHint() <= 0) {
+                        previousButton.setEnabled(false);
+                    }
+                    
+                    previousButton = null;
+
                 } else if(previousButton.getAssociatedCell().getPiece().getPlayerOwned()) {
                     if(button.getAssociatedCell().getPiece() == null) {
                         finishedTurn = bd.moveOrAttack(previousButton.getAssociatedCell(), button.getAssociatedCell(), true);
@@ -285,11 +314,23 @@ public class GraphicBoard extends JFrame {
             }
         };
 
+        startDebugB.setText("Debug");
+
+        startDebugB.addActionListener(listener);
+
+        hintB.setEnabled(true);
+
+        hintB.setText("Hint x" + bd.getHint());
+
+        hintB.addActionListener(listener);
+
         for(int i = 0 ; i < 5 ; i ++) {
             for ( int j = 0 ; j < 5 ; j ++) {
                 btn[i][j].addActionListener(listener);
             }
         }
+
+
     }
 
     private void removeActionListeners(ActionListener e) {
@@ -303,6 +344,8 @@ public class GraphicBoard extends JFrame {
     private void setPreviousButton (Button b) {
         if(b == null) {
             this.previousButton = null;
+        } else if (b.getAssociatedCell() == null) {
+            this.previousButton = b;
         } else if(b.getAssociatedCell().getPiece() == null) {
             this.previousButton = null;
         } else {
