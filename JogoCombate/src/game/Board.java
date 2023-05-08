@@ -37,6 +37,7 @@ public class Board {
     }
 
     public Board (Preset preset) {
+        hint = 2;
         this.RNG = new Random(System.currentTimeMillis());
         int [][] presetValues = preset.getPreset();
         for(int i = 0 ; i < 5 ; i ++) {

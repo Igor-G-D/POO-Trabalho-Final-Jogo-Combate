@@ -108,6 +108,7 @@ public class Menu extends JFrame {
                             Menu.setRestart(false);
                             gb.showWindow();
                             gb.updateWindow();
+                            gb.updateCounters();
                             gb.playGame();
                             gb.addWindowListener(this);
                         } else {
