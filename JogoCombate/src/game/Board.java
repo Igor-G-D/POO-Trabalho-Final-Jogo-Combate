@@ -275,7 +275,7 @@ public class Board {
         //TODO: allow player to choose the position for their own pieces;
     }
 
-    private void randomizePositions (int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
+    public void randomizePositions (int posx, boolean playerPieces) { //what line it randomizes from. if 0, will randomize over rows 0 and 1. if 3, will randomize over rows 3 and 4
         
         while (removedPieces.getPiecesSet(playerPieces).getFlag() != null) {
 
@@ -409,7 +409,7 @@ public class Board {
     }
 
     private boolean validPositionToPlace(int x, int y, boolean playerSide) {
-        if(cells[x][y].getPiece() == null && !cells[x][y].getIsObstacle() && (x == 0 || x == 1)) {
+        if(cells[x][y].getPiece() == null && !cells[x][y].getIsObstacle() && (x == 4 || x == 3)) {
             return true;
         } else {
             return false;

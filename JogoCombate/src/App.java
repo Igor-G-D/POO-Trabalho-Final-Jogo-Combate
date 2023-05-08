@@ -5,14 +5,14 @@ public class App {
     public static void main(String[] args) throws Exception {
         GraphicBoard gb = new GraphicBoard();
 
-        gb.getBoard().setStartRandom();
-
         gb.showWindow();
-
-        gb.updateWindow();
 
         gb.updateCounters();
 
-        gb.playGame();
+        gb.getBoard().randomizePositions(0,false); //randomize enemies
+        
+        gb.updateWindow();
+
+        gb.playerChoosePositions();
     }
 }

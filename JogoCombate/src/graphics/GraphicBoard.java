@@ -223,7 +223,64 @@ public class GraphicBoard extends JFrame {
     }
 
     public void playerChoosePositions() {
+      
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Button button = (Button) e.getSource();
 
+                if (button.equals(startDebugB)) {
+                    if(bd.getRemovedPieces().validGameStart()) {
+                        //TODO: start game
+                        System.out.println("Game can start!");
+                    } else {
+                        infoBox("Please place all your pieces!", "Game: ");
+                    }
+                } else if (previousButton == null) { // nothing was pressed before, or a piece without a piece was chosen, or a enemy piece was chosen
+                    if(button.getAssociatedCell() != null) {
+                        if(button.getAssociatedCell().getPiece() != null && button.getAssociatedCell().getPiece().getPlayerOwned()) {
+                            bd.getRemovedPieces().addPiece(button.getAssociatedCell().getPiece());
+                            button.getAssociatedCell().removePiece();
+                            updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
+                            updateCounters();
+                        }
+                        previousButton = null;
+                    } else {
+                        previousButton = button;
+                    }
+                } else if (previousButton.getAssociatedPiece() != null && previousButton.getAssociatedPiece().getPlayerOwned() && button.getAssociatedCell() != null) {
+                    if (bd.playerPlacePieceStart(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy(), previousButton.getAssociatedPiece())) {
+                        updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
+                        updateCounters();
+                    } else {
+                        infoBox("Couldn't place piece! Either invalid position, or all pieces of this type have been placed already", "Game: ");
+                    }
+                    previousButton = null;
+                    
+                }
+               
+                updateCounters();
+            }
+        };
+
+        startDebugB.setText("Start Game");
+
+        startDebugB.addActionListener(listener);
+
+        hintB.setEnabled(false);
+
+        hintB.setText("Hint x" + bd.getHint());
+
+        hintB.addActionListener(listener);
+
+        for(int i = 0 ; i < 5 ; i ++) {
+            for ( int j = 0 ; j < 5 ; j ++) {
+                btn[i][j].addActionListener(listener);
+            }
+        }
+        for(int i = 0 ; i < 6 ; i ++) {
+            playerPieces[i].addActionListener(listener);    
+        }
     }
 
     public static void infoBox(String infoMessage, String titleBar)
@@ -329,8 +386,6 @@ public class GraphicBoard extends JFrame {
                 btn[i][j].addActionListener(listener);
             }
         }
-
-
     }
 
     private void removeActionListeners(ActionListener e) {
