@@ -17,29 +17,43 @@ import javax.swing.JPanel;
 
 import game.*;
 
-public class Menu extends JFrame {
+public class GameEndScreen extends JFrame {
 
-    private static Preset previousGame;
-    private static boolean restart;
-    private GraphicBoard gb;
-    private JButton btnRandom;
-    private JButton btnSort;
+    private JButton btnRestart;
+    private JButton btnNewGame;
 
-    private void showMenu() {
+    public GameEndScreen(GraphicBoard gb) {
+        gb.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) { // when .dispose() is called
+                closeEndGameScreen();
+            }
+        });
+    }
 
-        setTitle("Combate");        
+    private void endGameScreen(int gameState) {
+
+        setTitle("Result");        
         setSize(550, 600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
 
+        String text;
+        if(gameState == 1) {
+            text = "Victory";
+        } else if (gameState == -1) {
+            text = "Defeat";
+        } else {
+            text = "Draw";
+        }
 
         JPanel ptop = new JPanel(new GridBagLayout());
         ptop.setVisible(true);
-        JLabel lblTitle = new JLabel("Bem Vindo ao Combate!");
+        JLabel lblTitle = new JLabel(text);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 30));
         ptop.add(lblTitle);
         ptop.setBorder(BorderFactory.createEmptyBorder(80, 10, 0, 10));
@@ -55,9 +69,9 @@ public class Menu extends JFrame {
 
         JPanel pleft = new JPanel(new GridLayout());
         pleft.setVisible(true);
-        btnRandom = new JButton("Posição Aleatória");
+        btnRestart = new JButton("Restart Game");
 
-        pleft.add(btnRandom);
+        pleft.add(btnRestart);
         pleft.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
 
         c.fill = GridBagConstraints.BOTH;
@@ -71,9 +85,9 @@ public class Menu extends JFrame {
 
         JPanel pright = new JPanel(new GridLayout());
         pright.setVisible(true);
-        btnSort = new JButton("Definir Posições");
+        btnNewGame = new JButton("New Game");
 
-        pright.add(btnSort);
+        pright.add(btnNewGame);
         pright.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
 
         c.fill = GridBagConstraints.BOTH;
@@ -87,71 +101,33 @@ public class Menu extends JFrame {
         setVisible(true);
     }
 
-    public void startMenu() {
-        showMenu();
+    public void showGameEnd(int gameState) {
+        endGameScreen(gameState);
 
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton button = (JButton) e.getSource();
-                if(button.equals(btnRandom)) {
-                    startRandomSetGame();
+                if(button.equals(btnRestart)) {
+                    Menu.setRestart(true); // preset was already handled
+                    closeEndGameScreen();
                 } else {
-                    startPlayerSetGame();
+                   Menu.setRestart(false);
+                   closeEndGameScreen();
                 }
-                gb.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) { // when .dispose() is called
-                        if(restart) {
-                            gb.removeWindowListener(this);
-                            gb = new GraphicBoard(previousGame);
-                            Menu.setRestart(false);
-                            gb.showWindow();
-                            gb.updateWindow();
-                            gb.playGame();
-                            gb.addWindowListener(this);
-                        } else {
-                            setVisibilityMenu(true);
-                        }
-                    }
-                });
             }
         };
 
-        btnRandom.addActionListener(listener);
-        btnSort.addActionListener(listener);
-
+        btnRestart.addActionListener(listener);
+        btnNewGame.addActionListener(listener);
     }
 
     public void setVisibilityMenu(boolean b) {
         setVisible(b);
     }
 
-    private void startRandomSetGame() {
-
-        gb = new GraphicBoard();
-        gb.getBoard().setStartRandom();
-        previousGame = new Preset(gb.getBoard());
-        setVisibilityMenu(false);
-        gb.showWindow();
-        gb.updateWindow();
-        gb.playGame();
-
+    private void closeEndGameScreen() {
+        this.dispose();
     }
 
-    private void startPlayerSetGame() {
-        gb = new GraphicBoard();
-        gb.getBoard().randomizePositions(0, false);;
-        setVisibilityMenu(false);
-        gb.showWindow();
-        gb.updateWindow();
-        gb.playerChoosePositions();
-    }
-
-    static void setPreviousGame (Preset preset) {
-        previousGame = preset;
-    }
-    static void setRestart (boolean r) {
-        restart = r;
-    }
 }

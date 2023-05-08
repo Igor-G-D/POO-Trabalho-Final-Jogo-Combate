@@ -37,7 +37,7 @@ public class Board {
     }
 
     public Board (Preset preset) {
-
+        this.RNG = new Random(System.currentTimeMillis());
         int [][] presetValues = preset.getPreset();
         for(int i = 0 ; i < 5 ; i ++) {
             boolean playerSide = false;
@@ -57,6 +57,8 @@ public class Board {
 
                 if (presetValues[i][j] == 0) {
                     cells[i][j].placePiece(new PieceFlag(playerSide));
+                } else if (presetValues[i][j] == 1) {
+                    cells[i][j].placePiece(new PieceSpy(playerSide));
                 } else if (presetValues[i][j] == 2) {
                     cells[i][j].placePiece(new PieceSoldier(playerSide));
                 } else if (presetValues[i][j] == 3) {
@@ -353,7 +355,7 @@ public class Board {
                     if( j + 1 < 5 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)][j+1], false)) { //move forward
                         Cell cellsUsed[] = new Cell[2];
                         cellsUsed[0] = cells[rows.get(i)][j];
-                        cellsUsed[1] = cells[rows.get(i)][i+1];
+                        cellsUsed[1] = cells[rows.get(i)][j+1];
                         return cellsUsed;
                     } else if ( rows.get(i) + 1 < 5 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)+1][j], false)) {
                         Cell cellsUsed[] = new Cell[2];
@@ -363,7 +365,7 @@ public class Board {
                     } else if ( rows.get(i) - 1 >= 0 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)-1][j], false)) {
                         Cell cellsUsed[] = new Cell[2];
                         cellsUsed[0] = cells[rows.get(i)][j];
-                        cellsUsed[1] = cells[rows.get(i)-1][i];
+                        cellsUsed[1] = cells[rows.get(i)-1][j];
                         return cellsUsed;
                     } else if ( j - 1 >= 0 && moveOrAttack(cells[rows.get(i)][j], cells[rows.get(i)][j-1], false)) {
                         Cell cellsUsed[] = new Cell[2];

@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,6 +34,36 @@ public class GraphicBoard extends JFrame {
 
     public GraphicBoard() {
         bd = new Board();
+        btn = new Button[5][5];
+        playerPieces = new Button[6];
+        playerPiecesLeft = new int[6];
+        lblPlayer = new Label[6];
+        enemyPieces = new Button[6];
+        enemyPiecesLeft = new int[6];
+        lblEnemy = new Label[6];
+
+        startDebugB = new Button();
+        hintB = new Button();
+        hintB.setEnabled(false);
+        
+
+        for( int i = 0 ; i<5 ; i++ ) {
+            for( int j = 0 ; j<5 ; j++ ) {
+                btn[i][j] = new Button(bd.getCell(i, j));
+            }
+        }
+
+        getPiecesLeft(false);
+        getPiecesLeft(true);
+
+        getPiecesArray(true);
+        getPiecesArray(false);
+
+        previousButton = null;
+    }
+
+    public GraphicBoard(Preset preset) {
+        bd = new Board(preset);
         btn = new Button[5][5];
         playerPieces = new Button[6];
         playerPiecesLeft = new int[6];
@@ -93,7 +125,7 @@ public class GraphicBoard extends JFrame {
         setSize(750, 800);
         setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         
         setLayout(new GridBagLayout());
@@ -215,10 +247,6 @@ public class GraphicBoard extends JFrame {
         c.gridwidth = 1;
         add(pBottomButtons, c);
 
-        
-
-        //setContentPane((new JLabel(new ImageIcon(getClass().getResource("/images/jogocombate (1).png")))));
-        //insert the background image in the frame, but this method puts the image above the other elements
         this.setVisible(true);
     }
 
@@ -266,7 +294,7 @@ public class GraphicBoard extends JFrame {
                         updateCell(button.getAssociatedCell().getPosx(), button.getAssociatedCell().getPosy());
                         updateCounters();
                     } else {
-                        infoBox("Couldn't place piece! Either invalid position, or all pieces of this type have been placed already", "Game: ");
+                        infoBox("Couldn't place piece! Position occupied, invalid position, or all pieces of this type have been placed already", "Game: ");
                     }
                     previousButton = null;
                     
@@ -306,9 +334,7 @@ public class GraphicBoard extends JFrame {
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Button button = (Button) e.getSource();
-                //System.out.println("Button Pressed: x : " + button.getAssociatedCell().getPosx() + " y : " + button.getAssociatedCell().getPosy() + "\n"); // TODO: remove console print
-                
+                Button button = (Button) e.getSource();                
                 boolean finishedTurn = false;
                 //        gb.getBoard().setDebug(true);
 
@@ -351,35 +377,22 @@ public class GraphicBoard extends JFrame {
                
                 updateCounters();
 
-                System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
-                if(bd.getRemovedPieces().gameEnd() == 1) {
-                    removeActionListeners(this);
-                } else if (bd.getRemovedPieces().gameEnd() == -1) {
-                    removeActionListeners(this);
-                } else if (bd.getRemovedPieces().gameEnd() == 2) {
-                    removeActionListeners(this);
-                }
+
+                boolean ended = checkGameEnd(this);
+
 
                 if(finishedTurn) {
-                    System.out.println("Enemy Turn");
                     Cell cellsUsed[] = new Cell[2];
                     cellsUsed = bd.enemyRandomMove();
 
-                    if(cellsUsed[0] == null) {
-                        System.out.println("Enemy Can't move");
-                    } else {
+                    if(cellsUsed[0] != null) {
                         updateWindow();
                     }
                     updateCounters();
                 }
 
-                System.out.println("Game state:" +  bd.getRemovedPieces().gameEnd());
-                if(bd.getRemovedPieces().gameEnd() == 1) {
-                    removeActionListeners(this);
-                } else if (bd.getRemovedPieces().gameEnd() == -1) {
-                    removeActionListeners(this);
-                } else if (bd.getRemovedPieces().gameEnd() == 2) {
-                    removeActionListeners(this);
+                if (!ended) {
+                    checkGameEnd(this);
                 }
             }
         };
@@ -422,6 +435,10 @@ public class GraphicBoard extends JFrame {
 
     }
     
+    private GraphicBoard getGraphicBoard() {
+        return this;
+    }
+
     private void getPiecesArray(boolean playerOwned) {
         if(playerOwned == true) {
             playerPieces[0] = new Button(new PieceBomb(playerOwned));
@@ -456,5 +473,33 @@ public class GraphicBoard extends JFrame {
             enemyPiecesLeft[4] = bd.getRemovedPieces().numberPiecesRemoved(PieceMarshall.class, b);
             enemyPiecesLeft[5] = bd.getRemovedPieces().numberPiecesRemoved(PieceCorporal.class, b);
         }
+    }
+
+    private void closeGameScreen() {
+        this.dispose();
+    }
+
+    private boolean checkGameEnd(ActionListener al) {
+        if(bd.getRemovedPieces().gameEnd() != 0) {
+            GameEndScreen gameEndScreen = new GameEndScreen(getGraphicBoard());
+            if(bd.getRemovedPieces().gameEnd() == 1) {
+                removeActionListeners(al);
+                gameEndScreen.showGameEnd(bd.getRemovedPieces().gameEnd());
+            } else if (bd.getRemovedPieces().gameEnd() == -1) {
+                removeActionListeners(al);
+                gameEndScreen.showGameEnd(bd.getRemovedPieces().gameEnd());
+            } else if (bd.getRemovedPieces().gameEnd() == 2) {
+                removeActionListeners(al);
+                gameEndScreen.showGameEnd(bd.getRemovedPieces().gameEnd());
+            }
+            gameEndScreen.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) { // when .dispose() is called
+                    closeGameScreen();
+                }   
+            });
+            return true;
+        }
+        return false;
     }
 }

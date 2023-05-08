@@ -54,9 +54,9 @@ public class RemovedPieces {
         
         if ((!checkMovablePieces(enemyPieces)) && (!checkMovablePieces(playerPieces))) { // if no movable pieces are left on both sides
             return 2; // tie
-        } else if(playerPieces.getFlag() != null || (!checkMovablePieces(enemyPieces))) { // if the player's flag was removed or if enemy has no movable pieces
+        } else if(playerPieces.getFlag() != null || (!checkMovablePieces(playerPieces))) { // if the player's flag was removed or if enemy has no movable pieces
             return -1; // defeat
-        } else if (enemyPieces.getFlag() != null || (!checkMovablePieces(playerPieces))) { // if the enemy flag was removed or if if player has no movable pieces
+        } else if (enemyPieces.getFlag() != null || (!checkMovablePieces(enemyPieces))) { // if the enemy flag was removed or if if player has no movable pieces
             return 1; // victory
         } else {
             return 0; // game isn't over
