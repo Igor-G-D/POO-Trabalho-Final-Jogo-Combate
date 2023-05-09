@@ -18,8 +18,6 @@ public class Cell {
     }
 
     public void placePiece (Piece piece) {
-        //TODO: error to catch when there is already a piece occupying
-
         this.pieceOn = piece;
     }
 

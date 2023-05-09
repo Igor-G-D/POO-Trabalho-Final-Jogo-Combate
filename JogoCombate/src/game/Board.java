@@ -105,7 +105,6 @@ public class Board {
     // }
 
     public boolean playerPlacePieceStart(int x, int y, Piece piece) { //always used by the player, returns false if it couldn't place, true if it was placed
-        //TODO: handle exception thrown by Cell.placePiece() when trying to place in tile that is occupied, or is an obstacle
 
         if(!validPositionToPlace(x, y, true)) {
             return false;
@@ -178,7 +177,7 @@ public class Board {
         }
 
         if (playerAction && !start.getPiece().getPlayerOwned()) {
-            return false; // TODO: turn this into an exception (player can't act on a non player piece)
+            return false;
         }
         
         if (start.getPiece() instanceof PieceBomb || start.getPiece() instanceof PieceFlag) {
@@ -227,7 +226,7 @@ public class Board {
             return true;
         } else if (isAdjacent(start, destination)) {// add removed piece to the removed pieces class // if there is a piece in the destination, means it is attacking
             if (destination.getPiece().getPlayerOwned() == start.getPiece().getPlayerOwned()) {
-                return false; //TODO: make this into an exception (attacking piece of the same team)
+                return false;
             }
 
             int result = start.getPiece().attack(destination.getPiece());
@@ -268,7 +267,6 @@ public class Board {
         randomizePositions(0, false); //randomize enemy positions
 
         return new Preset(this);
-        //TODO: exception for when the board isn't empty
     }
 
     public void setStartPlayerChoice() {
@@ -335,8 +333,6 @@ public class Board {
                     }
                 }
             }
-
-            //TODO: throw exception when piecesLeft isn't empty after the last for
         }
     }
 

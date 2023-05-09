@@ -12,31 +12,31 @@ public class RemovedPieces {
     public void addPiece(Piece piece) {
         if(piece.getPlayerOwned()) {
             if(piece instanceof PieceSpy) {
-                playerPieces.addSpy(); // TODO: Handle error thrown by addSpy
+                playerPieces.addSpy(); 
             } else if(piece instanceof PieceSoldier) {
-                playerPieces.addSoldier(); // TODO: Handle error thrown by addSoldier
+                playerPieces.addSoldier();
             } else if(piece instanceof PieceCorporal) {
-                playerPieces.addCorporal(); // TODO: Handle error thrown by addCorporal
+                playerPieces.addCorporal();
             } else if(piece instanceof PieceMarshall) {
-                playerPieces.addMarshall(); // TODO: Handle error thrown by addMarshall
+                playerPieces.addMarshall();
             } else if(piece instanceof PieceBomb) {
-                playerPieces.addBomb(); // TODO: Handle error thrown by addBomb
+                playerPieces.addBomb();
             } else if(piece instanceof PieceFlag) {
-                playerPieces.addFlag(); // TODO: Handle error thrown by addFlag
+                playerPieces.addFlag();
             } 
         } else {
             if(piece instanceof PieceSpy) {
-                enemyPieces.addSpy(); // TODO: Handle error thrown by addSpy
+                enemyPieces.addSpy();
             } else if(piece instanceof PieceSoldier) {
-                enemyPieces.addSoldier(); // TODO: Handle error thrown by addSoldier
+                enemyPieces.addSoldier();
             } else if(piece instanceof PieceCorporal) {
-                enemyPieces.addCorporal(); // TODO: Handle error thrown by addCorporal
+                enemyPieces.addCorporal();
             } else if(piece instanceof PieceMarshall) {
-                enemyPieces.addMarshall(); // TODO: Handle error thrown by addMarshall
+                enemyPieces.addMarshall();
             } else if(piece instanceof PieceBomb) {
-                enemyPieces.addBomb(); // TODO: Handle error thrown by addBomb
+                enemyPieces.addBomb();
             } else if(piece instanceof PieceFlag) {
-                enemyPieces.addFlag(); // TODO: Handle error thrown by addFlag
+                enemyPieces.addFlag();
             } 
         }
     }
@@ -50,7 +50,6 @@ public class RemovedPieces {
     }
 
     public int gameEnd() { // -1 = enemy win, 0 = continue game, 1 = player win, 2 = tie (no pieces that can move are left)
-        //TODO: add exception for when both enemy and player has their flags captured (invalid state)
         
         if ((!checkMovablePieces(enemyPieces)) && (!checkMovablePieces(playerPieces))) { // if no movable pieces are left on both sides
             return 2; // tie

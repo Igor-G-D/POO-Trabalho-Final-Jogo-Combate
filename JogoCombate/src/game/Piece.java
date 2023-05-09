@@ -13,7 +13,7 @@ public abstract class Piece {
     }
 
     public abstract int attack( Piece victim ); // -1 if the agressor dies, 0 if both dies, 1 if victim dies
-    public abstract boolean canMoveTo(int currx, int curry, int x, int y); // returns if the piece can move to that position TODO: throws exception for when the move is invalid for the piece
+    public abstract boolean canMoveTo(int currx, int curry, int x, int y); // returns if the piece can move to that position 
 
     public int getPieceValue() {
         return this.value;
