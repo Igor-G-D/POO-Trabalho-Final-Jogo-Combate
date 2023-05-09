@@ -125,7 +125,6 @@ public class PlayerPieceSet {
         if(spy == null) {
             spy = new PieceSpy(playerOwned);
         } else {
-            //TODO: add exception for when it tries adding more than one spy
         }
     }
 
@@ -136,7 +135,6 @@ public class PlayerPieceSet {
                 return;
             }
         }
-        // TODO: add exception for when it tries adding more than 3 soldiers
     }
 
     public void addCorporal() {
@@ -146,14 +144,12 @@ public class PlayerPieceSet {
                 return;
             }
         }
-        // TODO: add exception for when it tries adding more than 2 corporals
     }
 
     public void addMarshall() {
         if(marshall == null) {
             marshall = new PieceMarshall(playerOwned);
         } else {
-            //TODO: add exception for when it tries adding more than one marshall
         }
     }
 
@@ -164,14 +160,12 @@ public class PlayerPieceSet {
                 return;
             }
         }
-        //TODO: add exception for when it tries adding more than two bombs
     }
 
     public void addFlag() {
         if(flag == null) {
             flag = new PieceFlag(playerOwned);
         } else {
-            //TODO: add exception for when it tries adding more than one flag
         }
     }
 
