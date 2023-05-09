@@ -136,6 +136,7 @@ public class Menu extends JFrame {
         setVisibilityMenu(false);
         gb.showWindow();
         gb.updateWindow();
+        gb.updateCounters();
         gb.playGame();
 
     }
@@ -146,6 +147,7 @@ public class Menu extends JFrame {
         setVisibilityMenu(false);
         gb.showWindow();
         gb.updateWindow();
+        gb.updateCounters();
         gb.playerChoosePositions();
     }
 
