@@ -2,6 +2,7 @@ package graphics;
 
 import game.*;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +14,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -116,7 +118,7 @@ public class GraphicBoard extends JFrame {
 
     public void showWindow() {
         setTitle("Combate");
-        setSize(750, 800);
+        setSize(750, 850);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -131,62 +133,44 @@ public class GraphicBoard extends JFrame {
         JPanel pOpButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
         pOpButtons.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
         pOpButtons.setVisible(true);
+        pOpButtons.setBackground(new Color(255, 225, 175));
 
+        
         pOpButtons.add(startDebugB);
         pOpButtons.add(hintB);
         c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1; // 100% width of panel
-        c.weighty = 1; // 10% height of panel
+        c.weightx = 1;
+        c.weighty = 1;
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
-        add(pOpButtons, c);
-        
-        
-        
+        add(pOpButtons, c);        
 
+        
         // ENEMY`S LEFT PIECES
-        JPanel pTopButtons = new JPanel(new GridLayout());
+        JPanel pTopButtons = new JPanel(new GridLayout(2, 6));
         pTopButtons.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         pTopButtons.setVisible(true);
-        
-        
+        pTopButtons.setBackground(new Color(255, 225, 175));
 
         for( int i = 0 ; i<6 ; i++ ) {
             pTopButtons.add(enemyPieces[i]);
         }
         
+        for( int i = 0 ; i<6 ; i++ ) {
+            lblEnemy[i] = new Label(String.valueOf("x" + enemyPiecesLeft[i]));
+            lblEnemy[i].setHorizontalAlignment(JLabel.CENTER);
+            pTopButtons.add(lblEnemy[i]);
+        }
+
         c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1; // 100% width of panel
-        c.weighty = 2; // 10% height of panel
+        c.weightx = 1;
+        c.weighty = 2;
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
         add(pTopButtons, c);
 
-        
-
-        // PANEL 1 CONFIGURATION
-        JPanel pTop = new JPanel();
-        pTop.setLayout(new GridLayout());
-        pTop.setVisible(true);
-        pTop.setBorder(BorderFactory.createEmptyBorder(10, 70, 10, 30));
-
-        
-
-        /* */
-        for( int i = 0 ; i<6 ; i++ ) {
-            lblEnemy[i] = new Label(String.valueOf("x" + enemyPiecesLeft[i]));
-            pTop.add(lblEnemy[i]);
-        }
-
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1; // 100% width of panel
-        c.weighty = 2; // 10% height of panel
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 2;
-        add(pTop, c);
 
         // BUTTONS` GRID CONFIGURATION
         BackgroundJPanel pMid = new BackgroundJPanel();
@@ -204,30 +188,21 @@ public class GraphicBoard extends JFrame {
         c.weightx = 1; // 100% width of panel
         c.weighty = 2; // 80% height of panel
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 2;
         add(pMid, c);
 
-        // PANEL 3 CONFIGURATION
-        JPanel pBottom = new JPanel(new GridLayout());        
-        pBottom.setBorder(BorderFactory.createEmptyBorder(10, 70, 10, 30));
-        pBottom.setVisible(true);
-        for( int i = 0 ; i<6 ; i++ ) {
-            lblPlayer[i] = new Label(String.valueOf("x" + playerPiecesLeft[i]));
-            pBottom.add(lblPlayer[i]);
-        }
-
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.gridx = 0;
-        c.gridy = 4;
-        c.gridwidth = 1;
-        add(pBottom, c);
 
         // PLAYER`S LEFT PIECES
-        JPanel pBottomButtons = new JPanel(new GridLayout());
+        JPanel pBottomButtons = new JPanel(new GridLayout(2, 6));
         pBottomButtons.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         pBottomButtons.setVisible(true);
+        pBottomButtons.setBackground(new Color(255, 225, 175));
+
+        for( int i = 0 ; i<6 ; i++ ) {
+            lblPlayer[i] = new Label(String.valueOf("x" + playerPiecesLeft[i]));
+            lblPlayer[i].setHorizontalAlignment(JLabel.CENTER);
+            pBottomButtons.add(lblPlayer[i]);
+        }
 
         for( int i = 0 ; i<6 ; i++ ) {
             pBottomButtons.add(playerPieces[i]);
@@ -237,7 +212,7 @@ public class GraphicBoard extends JFrame {
         c.weightx = 1; // 100% width of panel
         c.weighty = 2; // 10% height of panel
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 3;
         c.gridwidth = 1;
         add(pBottomButtons, c);
 

@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -36,49 +37,56 @@ public class Menu extends JFrame {
 
         GridBagConstraints c = new GridBagConstraints();
 
-
+        // TOP PANEL CONFIGURATION
         JPanel ptop = new JPanel(new GridBagLayout());
         ptop.setVisible(true);
-        JLabel lblTitle = new JLabel("Bem Vindo ao Combate!");
+        JLabel lblTitle = new JLabel("Welcome to Combate!!");
         lblTitle.setFont(new Font("Arial", Font.BOLD, 30));
         ptop.add(lblTitle);
         ptop.setBorder(BorderFactory.createEmptyBorder(80, 10, 0, 10));
+        ptop.setBackground(new Color(255, 225, 175));
 
         c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1; // 100% width of panel
-        c.weighty = 0.40; // 10% height of panel
+        c.weightx = 1;
+        c.weighty = 0.40;
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
         add(ptop, c);
 
-
+        // LEFT PANEL CONFIGURATION
         JPanel pleft = new JPanel(new GridLayout());
         pleft.setVisible(true);
-        btnRandom = new JButton("Posição Aleatória");
+        btnRandom = new JButton("Random Positions");
+        btnRandom.setBackground(new Color(210, 210, 210));
+        btnRandom.setFocusPainted(false);
 
         pleft.add(btnRandom);
         pleft.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
+        pleft.setBackground(new Color(255, 225, 175));
 
         c.fill = GridBagConstraints.BOTH;
-        c.weightx = 0.5; // 100% width of panel
-        c.weighty = 0.6; // 10% height of panel
+        c.weightx = 0.5;
+        c.weighty = 0.6;
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
         add(pleft, c);
 
-
+        // RIGHT PANEL CONFIGURATION
         JPanel pright = new JPanel(new GridLayout());
         pright.setVisible(true);
-        btnSort = new JButton("Definir Posições");
+        btnSort = new JButton("Choose Positions");
+        btnSort.setBackground(new Color(210, 210, 210));
+        btnSort.setFocusPainted(false);
 
         pright.add(btnSort);
         pright.setBorder(BorderFactory.createEmptyBorder(180, 10, 180, 10));
+        pright.setBackground(new Color(255, 225, 175));
 
         c.fill = GridBagConstraints.BOTH;
-        c.weightx = 0.5; // 100% width of panel
-        c.weighty = 0.6; // 10% height of panel
+        c.weightx = 0.5;
+        c.weighty = 0.6;
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 1;

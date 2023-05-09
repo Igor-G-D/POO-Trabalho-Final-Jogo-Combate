@@ -1,5 +1,7 @@
 package graphics;
 
+import java.awt.Color;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +16,8 @@ public class Button extends JButton {
     public Button() {
         associatedCell = null;
         associatedPiece = null;
+        this.setBackground(new Color(210, 210, 210));
+        this.setFocusPainted(false);
     }
 
     public Button(Cell cell) {
